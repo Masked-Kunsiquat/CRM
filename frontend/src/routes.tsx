@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import MainDashboard from "./pages/MainDashboard";
-import CRM from "./apps/crm/pages/Dashboard";
+import CRM from "./apps/crm/pages/CRMDashboard";
 import MoodTracker from "./apps/mood-tracker";
 import GasTracker from "./apps/gas-tracker";
 
