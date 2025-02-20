@@ -1,12 +1,20 @@
-import { DarkThemeToggle } from "flowbite-react";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "./lib/react-query";
+import { ToastProvider } from "./apps/shared/components/ux/ToastContext";
+import AppRoutes from "./routes";
+import Header from "./apps/shared/components/ui/Header"; // Import Header
 
-function App() {
+const App = () => {
   return (
-    <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
-      <h1 className="text-2xl dark:text-white">Flowbite React + Vite</h1>
-      <DarkThemeToggle />
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <main className="flex flex-col min-h-screen dark:bg-gray-800 p-6">
+          <Header /> {/* Centralized header for all pages */}
+          <AppRoutes />
+        </main>
+      </ToastProvider>
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;
