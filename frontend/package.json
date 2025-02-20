@@ -18,13 +18,13 @@
     "flowbite-react": "^0.10.2",
     "pocketbase": "^0.25.1",
     "react": "^19.0.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^19.0.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^7.2.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.10",
-    "@types/react-dom": "^18.2.22",
+    "@types/react-dom": "^19.0.4",
     "@typescript-eslint/eslint-plugin": "^8.24.1",
     "@typescript-eslint/parser": "^7.3.1",
     "@vitejs/plugin-react": "^4.2.1",
