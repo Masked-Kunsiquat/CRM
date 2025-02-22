@@ -3,11 +3,13 @@ import MainDashboard from "./pages/MainDashboard";
 import CRM from "./apps/crm/pages/CRMDashboard";
 import MoodTracker from "./apps/mood-tracker";
 import GasTracker from "./apps/gas-tracker";
+import SettingsRoutes from "./pages/settings";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<MainDashboard />} />
+      <Route path="settings/*" element={<SettingsRoutes />} />
       <Route path="/crm" element={<CRM />} />
       <Route path="/mood-tracker" element={<MoodTracker />} />
       <Route path="/gas-tracker" element={<GasTracker />} />
