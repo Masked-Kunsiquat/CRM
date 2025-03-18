@@ -2,13 +2,15 @@
 
 import { Checkbox, Table } from "flowbite-react";
 import { RecordModel } from "pocketbase";
+import { Link } from 'react-router-dom'; // Import Link
 
 interface DataTableProps {
     data: RecordModel[];
     fields: string[];
+    fieldLabels?: { [key: string]: string }; // Optional field labels mapping
 }
 
-export function DataTable({ data, fields }: DataTableProps) {
+export function DataTable({ data, fields, fieldLabels }: DataTableProps) {
     const renderCellValue = (item: RecordModel, field: string) => {
         const value = item[field];
         if (typeof value === 'boolean') {
@@ -33,7 +35,9 @@ export function DataTable({ data, fields }: DataTableProps) {
                         <Checkbox />
                     </Table.HeadCell>
                     {fields.map((field) => (
-                        <Table.HeadCell key={field}>{field}</Table.HeadCell>
+                        <Table.HeadCell key={field}>
+                            {fieldLabels && fieldLabels[field] ? fieldLabels[field] : field}
+                        </Table.HeadCell>
                     ))}
                     <Table.HeadCell>
                         <span className="sr-only">Edit</span>
@@ -46,9 +50,15 @@ export function DataTable({ data, fields }: DataTableProps) {
                                 <Checkbox />
                             </Table.Cell>
                             {fields.map((field) => (
-                                <Table.Cell key={`${item.id}-${field}`} className={getCellClass(item, field)}>
-                                    {renderCellValue(item, field)}
-                                </Table.Cell>
+                                field === 'name' ? (
+                                    <Table.Cell key={`${item.id}-${field}`} className="whitespace-nowrap font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                                        <Link to={`/organizations/${item.id}`}>{item[field]}</Link>
+                                    </Table.Cell>
+                                ) : (
+                                    <Table.Cell key={`${item.id}-${field}`} className={getCellClass(item, field)}>
+                                        {renderCellValue(item, field)}
+                                    </Table.Cell>
+                                )
                             ))}
                             <Table.Cell>
                                 <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
