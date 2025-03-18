@@ -1,6 +1,6 @@
 "use client";
 
-import OrganizationCard from '../components/OrganizationCard'; // Import OrganizationCard
+import OrganizationCard from "../components/organizations/OrganizationCard";
 
 export function Dashboard() {
     console.log("Dashboard component loaded");
