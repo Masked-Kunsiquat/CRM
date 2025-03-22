@@ -1,3 +1,4 @@
+// Layout.tsx
 import { NavbarComponent } from './Navbar';
 import { DarkThemeToggle } from "flowbite-react";
 
@@ -9,7 +10,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div>
       <NavbarComponent />
-      <div className="p-4">
+      <div className="p-4 dark:bg-gray-800"> {/* Explicit dark mode background */}
         {children}
       </div>
       <div className="absolute top-4 right-4">
