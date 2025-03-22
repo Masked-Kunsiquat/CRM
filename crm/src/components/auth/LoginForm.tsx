@@ -31,6 +31,7 @@ export const LoginForm = ({
           type="email"
           placeholder="name@example.com"
           required
+          autoComplete='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -43,6 +44,7 @@ export const LoginForm = ({
           id="password1"
           type="password"
           placeholder="Password"
+          autoComplete='current-password'
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}

@@ -1,19 +1,27 @@
-// useAuth.ts
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Import useEffect
 import getPocketBase from '../api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
   const [error, setError] = useState<string>('');
+  const [user, setUser] = useState<any>(null);
   const pb = getPocketBase();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load user from auth store on mount
+    if (pb.authStore.isValid) {
+      setUser(pb.authStore.model);
+    }
+  }, []);
 
   const login = async (email: string, password: string) => {
     setError('');
     try {
-      await pb.collection('users').authWithPassword(email, password, {
-        requestKey: null, // Prevent auto-cancel
+      const authData = await pb.collection('users').authWithPassword(email, password, {
+        requestKey: null,
       });
+      setUser(authData?.record);
       console.log('Login successful!');
       navigate('/dashboard');
     } catch (err) {
@@ -27,5 +35,11 @@ export const useAuth = () => {
     }
   };
 
-  return { login, error };
+  const logout = async () => {
+    pb.authStore.clear();
+    setUser(null);
+    navigate('/login');
+  };
+
+  return { login, error, user, logout };
 };

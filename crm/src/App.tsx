@@ -1,36 +1,14 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Organizations from './pages/Organizations'; // Import Organizations component
-import OrgDetail from './pages/OrgDetail';
-import getPocketBase from './api/pocketbase';
-import { DarkThemeToggle } from "flowbite-react";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './components/shared/AuthContext';
+import { RoutesConfig } from './RoutesConfig';
 
 function App() {
-  const pb = getPocketBase();
-  const isAuthenticated = pb.authStore.isValid;
-
+  console.log("App.tsx - Router rendered");
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
-        />
-        <Route
-            path="/organizations"
-            element={isAuthenticated ? <Organizations /> : <Navigate to="/login" />}
-        />
-        <Route
-            path="/organizations/:id"
-            element={isAuthenticated ? <OrgDetail /> : <Navigate to="/login" />}
-        />        
-        <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
-      </Routes>
-      <div className="absolute top-4 right-4">
-        <DarkThemeToggle />
-      </div>
+      <AuthProvider>
+        <RoutesConfig />
+      </AuthProvider>
     </Router>
   );
 }
