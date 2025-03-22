@@ -1,45 +1,68 @@
-import { useState, useEffect } from 'react'; // Import useEffect
-import getPocketBase from '../api/pocketbase';
+import { useState, useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import getPocketBase from '../api/pocketbase';
+import { RecordAuthResponse, RecordModel } from 'pocketbase';
+
+const pb = getPocketBase();
+
+interface User extends RecordModel {
+  email: string;
+  username?: string;
+  // add other known user fields here if needed
+}
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
 
 export const useAuth = () => {
-  const [error, setError] = useState<string>('');
-  const [user, setUser] = useState<any>(null);
-  const pb = getPocketBase();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const [user, setUser] = useState<User | null>(
+    pb.authStore.isValid ? (pb.authStore.model as User) : null
+  );
 
   useEffect(() => {
-    // Load user from auth store on mount
-    if (pb.authStore.isValid) {
-      setUser(pb.authStore.model);
-    }
+    const unsubscribe = pb.authStore.onChange((_, model) => {
+      setUser(model as User);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    setError('');
-    try {
-      const authData = await pb.collection('users').authWithPassword(email, password, {
-        requestKey: null,
-      });
-      setUser(authData?.record);
+  const loginMutation = useMutation<RecordAuthResponse<User>, Error, LoginCredentials>({
+    mutationFn: ({ email, password }) =>
+      pb.collection('users').authWithPassword<User>(email, password, {
+        requestKey: null, // 🚩 Prevent autocancellation
+      }),
+
+    onSuccess: (authData) => {
+      setUser(authData.record);
       console.log('Login successful!');
       navigate('/dashboard');
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-        console.error('Login error:', err);
-      } else {
-        setError('An unknown error occurred.');
-        console.error('Unknown login error:', err);
-      }
-    }
-  };
+      queryClient.invalidateQueries();
+    },
 
-  const logout = async () => {
+    onError: (err: Error) => {
+      console.error('Login error:', err);
+    },
+  });
+
+  const logout = () => {
     pb.authStore.clear();
     setUser(null);
+    queryClient.clear();
     navigate('/login');
   };
 
-  return { login, error, user, logout };
+  return {
+    user,
+    login: loginMutation.mutate,
+    loginError: loginMutation.error,
+    loginLoading: loginMutation.isPending,
+    logout,
+  };
 };

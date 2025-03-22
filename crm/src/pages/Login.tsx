@@ -8,11 +8,12 @@ import { LoginForm } from '../components/auth/LoginForm';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, error } = useAuth();
+  
+  const { login, loginError, loginLoading } = useAuth();
 
-  const handleLogin = async (e: FormEvent) => {
+  const handleLogin = (e: FormEvent) => {
     e.preventDefault();
-    await login(email, password);
+    login({ email, password });
   };
 
   return (
@@ -20,11 +21,12 @@ export function Login() {
       <LoginForm
         email={email}
         password={password}
-        error={error}
+        error={loginError ? loginError.message : ''}
         setEmail={setEmail}
         setPassword={setPassword}
         onSubmit={handleLogin}
       />
+      {loginLoading && <p>Loading...</p>}
     </div>
   );
 }

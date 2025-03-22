@@ -8,15 +8,21 @@ import { OrganizationsTable } from '../components/organizations/OrganizationsTab
 function Organizations() {
   const [page, setPage] = useState(1);
   const [perPage] = useState(10);
-  const { organizations, totalPages, loading, error } = useOrganizations(page, perPage);
+
+  const {
+    data,
+    isLoading,
+    isError,
+    error
+  } = useOrganizations(page, perPage);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (data && newPage >= 1 && newPage <= data.totalPages) {
       setPage(newPage);
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="p-4 dark:bg-gray-900 dark:text-white h-screen">
         <p>Loading...</p>
@@ -24,10 +30,10 @@ function Organizations() {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="p-4 dark:bg-gray-900 dark:text-white h-screen">
-        <p>Error: {error}</p>
+        <p>Error: {error?.message}</p>
       </div>
     );
   }
@@ -35,7 +41,7 @@ function Organizations() {
   return (
     <div className="p-4 dark:bg-gray-900 dark:text-white h-screen">
       <h1 className="text-2xl font-semibold mb-4 dark:text-gray-100">Organizations</h1>
-      <OrganizationsTable organizations={organizations} />
+      <OrganizationsTable organizations={data?.organizations || []} />
       <div className="flex justify-center mt-4">
         <button
           onClick={() => handlePageChange(page - 1)}
@@ -45,11 +51,11 @@ function Organizations() {
           Previous
         </button>
         <span className="dark:text-white">
-          Page {page} of {totalPages}
+          Page {page} of {data?.totalPages || 1}
         </span>
         <button
           onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPages}
+          disabled={page === data?.totalPages}
           className="px-4 py-2 mx-1 bg-gray-200 dark:bg-gray-700 rounded disabled:opacity-50"
         >
           Next

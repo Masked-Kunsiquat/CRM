@@ -1,15 +1,17 @@
-// Navbar.tsx
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Navbar } from "flowbite-react";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../../api/useAuth";
 import { DarkThemeToggle } from "flowbite-react";
 
 export function NavbarComponent() {
-  const { user, logout, isLoading } = useAuth();
+  const { user, logout, loginLoading } = useAuth();
+  const location = useLocation();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (loginLoading) {
+    return <div className="p-2 dark:text-white">Loading...</div>;
   }
+
+  const isActive = (path: string) => location.pathname.startsWith(path);
 
   return (
     <Navbar fluid rounded>
@@ -20,23 +22,24 @@ export function NavbarComponent() {
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Navbar.Link as={Link} to="/organizations" active>
+        <Navbar.Link as={Link} to="/organizations" active={isActive("/organizations")}>
           Organizations
         </Navbar.Link>
-        {user && (
+        {user ? (
           <>
-            <Navbar.Link as={Link} to="/dashboard">
+            <Navbar.Link as={Link} to="/dashboard" active={isActive("/dashboard")}>
               Dashboard
             </Navbar.Link>
             <Navbar.Link onClick={logout}>Logout</Navbar.Link>
           </>
-        )}
-        {!user && (
-          <Navbar.Link as={Link} to="/login">
+        ) : (
+          <Navbar.Link as={Link} to="/login" active={isActive("/login")}>
             Login
           </Navbar.Link>
         )}
-        <DarkThemeToggle /> {/* Moved inside Navbar */}
+        <div className="flex items-center ml-2">
+          <DarkThemeToggle aria-label="Toggle dark mode" />
+        </div>
       </Navbar.Collapse>
     </Navbar>
   );

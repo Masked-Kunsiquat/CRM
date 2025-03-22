@@ -1,14 +1,14 @@
-// ContactsCard.tsx
 "use client";
 
 import { useState } from 'react';
 import { useContacts } from '../../api/useContacts';
 import OrgDetailCard from '../organizations/OrgDetailCard';
-import { DataTable } from '../shared/DataTable';
+import DataTable from '../shared/DataTable';
 
 export function ContactsCard() {
   const [activeTab, setActiveTab] = useState<'internal' | 'external' | 'all'>('all');
-  const { contacts, loading, error } = useContacts(activeTab);
+  
+  const { data: contacts = [], isLoading, error } = useContacts(activeTab);
 
   const contactFields = ['first_name', 'last_name', 'role'];
   const contactFieldLabels = {
@@ -17,8 +17,8 @@ export function ContactsCard() {
     role: 'Role',
   };
 
-  if (loading) return <OrgDetailCard title="Contacts">Loading...</OrgDetailCard>;
-  if (error) return <OrgDetailCard title="Contacts">Error: {error}</OrgDetailCard>;
+  if (isLoading) return <OrgDetailCard title="Contacts">Loading...</OrgDetailCard>;
+  if (error) return <OrgDetailCard title="Contacts">Error: {error.message}</OrgDetailCard>;
 
   return (
     <OrgDetailCard title="Contacts">

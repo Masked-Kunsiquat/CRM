@@ -1,17 +1,15 @@
-// SubaccountsCard.tsx (corrected)
-"use client";
-
+import { memo, useMemo } from 'react';
 import { useSubaccounts } from '../../api/useSubaccounts';
 import OrgDetailCard from '../organizations/OrgDetailCard';
-import { DataTable } from '../shared/DataTable';
+import DataTable from '../shared/DataTable';
 import { RecordModel } from 'pocketbase';
 
 interface SubaccountsCardProps {
   accounts: RecordModel[];
 }
 
-export function SubaccountsCard({ accounts }: SubaccountsCardProps) {
-  const { subaccounts, loading, error } = useSubaccounts({ accounts });
+function SubaccountsCard({ accounts }: SubaccountsCardProps) {
+  const { data: subaccounts, isLoading, error } = useSubaccounts(accounts);
 
   const subaccountFields = ['name', 'accountName', 'status'];
   const subaccountFieldLabels = {
@@ -21,19 +19,29 @@ export function SubaccountsCard({ accounts }: SubaccountsCardProps) {
     created: 'Created',
   };
 
-  // Corrected mapping logic:
-  const formattedSubaccounts = subaccounts.map((subaccount) => ({
-    ...subaccount,
-    status: subaccount.status === 'active' ? '✅' : '❌', // Check for "active" string
-  }));
+  const formattedSubaccounts = useMemo(() => {
+    return (
+      subaccounts?.map((subaccount) => ({
+        ...subaccount,
+        status: subaccount.status === 'active' ? '✅' : '❌',
+      })) || []
+    );
+  }, [subaccounts]);
 
-  if (loading) return <OrgDetailCard title="Subaccounts">Loading...</OrgDetailCard>;
-  if (error) return <OrgDetailCard title="Subaccounts">Error: {error}</OrgDetailCard>;
+  if (isLoading)
+    return <OrgDetailCard title="Subaccounts">Loading...</OrgDetailCard>;
+  if (error)
+    return <OrgDetailCard title="Subaccounts">Error: {error.message}</OrgDetailCard>;
 
   return (
     <OrgDetailCard title="Subaccounts">
       {formattedSubaccounts.length > 0 ? (
-        <DataTable data={formattedSubaccounts} fields={subaccountFields} fieldLabels={subaccountFieldLabels} />
+        <DataTable
+          data={formattedSubaccounts}
+          fields={subaccountFields}
+          fieldLabels={subaccountFieldLabels}
+          entityPath="/subaccounts" // added here
+        />
       ) : (
         <p className="text-gray-900 dark:text-white">No Subaccounts Found</p>
       )}
@@ -41,4 +49,4 @@ export function SubaccountsCard({ accounts }: SubaccountsCardProps) {
   );
 }
 
-export default SubaccountsCard;
+export default memo(SubaccountsCard);
