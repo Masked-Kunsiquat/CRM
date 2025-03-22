@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { Navbar } from "flowbite-react";
 import { useAuth } from "./AuthContext";
+import { DarkThemeToggle } from "flowbite-react";
 
 export function NavbarComponent() {
   const { user, logout, isLoading } = useAuth();
@@ -35,6 +36,7 @@ export function NavbarComponent() {
             Login
           </Navbar.Link>
         )}
+        <DarkThemeToggle /> {/* Moved inside Navbar */}
       </Navbar.Collapse>
     </Navbar>
   );
