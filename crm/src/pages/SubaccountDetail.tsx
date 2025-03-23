@@ -1,25 +1,12 @@
 "use client";
 
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import getPocketBase from '../api/pocketbase';
+import { useSubaccount } from '../api/useSubaccounts';
 import ContactsCard from '../components/contacts/ContactsCard';
-
-const pb = getPocketBase();
 
 export default function SubAccountDetail() {
   const { id: subaccountId } = useParams();
-
-  const { data: subaccount, isLoading, error } = useQuery({
-    queryKey: ['subaccount', subaccountId],
-    queryFn: async () => {
-      if (!subaccountId) throw new Error("Missing subaccount ID");
-      return await pb.collection('subaccounts').getOne(subaccountId, {
-        expand: 'account.organization',
-      });
-    },
-    enabled: !!subaccountId,
-  });
+  const { data: subaccount, isLoading, error } = useSubaccount(subaccountId);
 
   const expandedAccount = subaccount?.expand?.account;
   const expandedOrg = expandedAccount?.expand?.organization;

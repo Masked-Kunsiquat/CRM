@@ -1,119 +1,105 @@
-# Swiss-Army App
+# Personal CRM
 
-This is a modular, self-hosted application built using **React (Vite) + PocketBase**. It is designed to be a multi-functional personal management tool, with different modules ("apps") that serve various purposes, such as a **CRM, mood tracker, and gas mileage tracker**.
-
----
-
-## 🚀 Features
-
-- **📁 Modular Design** – Each feature (CRM, Mood Tracker, Gas Tracker) is an independent module.
-- **🖥️ Frontend** – Built with **React + Vite**, styled using **Flowbite (Tailwind-based UI components)**.
-- **📦 Backend** – Uses **PocketBase** for lightweight, self-hosted database & authentication.
-- **⚡ Fast & Scalable** – Monorepo structure for easy expansion.
-- **🔄 Automatic Dependency Updates** – Uses **Dependabot** for keeping dependencies up-to-date.
-- **🌙 Dark Mode Support** – Adaptive UI with theme toggle.
+This is a self-hosted **CRM (Customer Relationship Management)** tool built using **React (Vite)** and **PocketBase**. It's tailored for personal use, not enterprise, and designed to help you organize relationships, interactions, and activity across accounts, subaccounts, and contacts.
 
 ---
 
-## 📂 Project Structure
+## ✨ Features
+
+- **Modular CRM Structure**  
+  Accounts, subaccounts, contacts (internal/external), organizations, and more.
+- **Clean, Responsive UI**  
+  Built with **Flowbite React + TailwindCSS**, designed for dark mode by default.
+- **Fast & Self-Hosted**  
+  Powered by **PocketBase** – lightweight, portable, and serverless-friendly.
+- **Real-Time Query Management**  
+  Uses **TanStack Query (React Query)** for caching and reactive UI updates.
+- **TypeScript-First**  
+  Fully typed frontend for reliability and maintainability.
+- **Customizable Entities**  
+  Built for flexibility: adapt it to your own data structure as needed.
+
+---
+
+## 📁 Tech Stack
+
+| Tech              | Description                        |
+|-------------------|------------------------------------|
+| **React + Vite**  | Frontend framework & dev tooling   |
+| **PocketBase**    | Backend database & auth (SQLite)   |
+| **Flowbite React**| UI components styled with Tailwind |
+| **React Query**   | Data fetching & cache management   |
+| **React Router**  | SPA routing                        |
+| **TypeScript**    | Type safety & DX                   |
+
+---
+
+## 💂 Project Structure
 
 ```
-CRM/
-├── backend/         # PocketBase backend (database & API)
-│   ├── pb_data/     # Database storage
-│   ├── pb_migrations/ # Database migrations
-│   └── pocketbase   # PocketBase executable
-├── frontend/        # React + Vite frontend
+crm/
+├── backend/               # PocketBase backend
+│   ├── pocketbase         # Executable
+│   └── pb_data/           # Database files
+├── frontend/              # React + Vite frontend
 │   ├── src/
-│   │   ├── apps/    # Modular apps (CRM, Mood Tracker, Gas Tracker)
-│   │   ├── shared/
-│   │   │   ├── ui/  # UI components (Cards, Header, etc.)
-│   │   │   ├── ux/  # UX components (Loader, Toasts, etc.)
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tsconfig.json
-├── .github/         # GitHub workflows & Dependabot
-│   ├── dependabot.yml # Automated dependency updates
-└── README.md        # This file
+│   │   ├── api/           # All API hooks (PocketBase queries)
+│   │   ├── components/    # UI components
+│   │   ├── pages/         # Route-based pages
+│   │   ├── types/         # Type definitions (if applicable)
+│   │   └── utils/         # Utilities
+│   └── public/
+├── .github/               # (Optional) GitHub Actions / Dependabot
+└── README.md
 ```
 
 ---
 
-## 🛠️ Setup & Installation
+## 🚀 Getting Started
 
-### **1️⃣ Clone the Repository**
-```sh
-git clone https://github.com/Maksed-Kunsiquat/CRM.git
-cd CRM
+### 1️⃣ Clone the Repo
+```bash
+git clone https://github.com/YOUR_USERNAME/crm.git
+cd crm
 ```
 
-### **2️⃣ Backend (PocketBase)**
-```sh
+### 2️⃣ Run the Backend (PocketBase)
+```bash
 cd backend
 ./pocketbase serve --http=localhost:8090
 ```
 
-### **3️⃣ Frontend (React + Vite)**
-```sh
+### 3️⃣ Run the Frontend (Vite Dev Server)
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-### **4️⃣ Open in Browser**
-```
-Frontend:  http://localhost:5173
-Backend (API):  http://localhost:8090
-```
+### 4️⃣ Access in Browser
+- **Frontend:** http://localhost:5173  
+- **Backend API / Admin Panel:** http://localhost:8090
 
 ---
 
-## 🔄 Updating Dependencies
+## 🔪 Development Notes
 
-This repo uses **Dependabot** to keep dependencies updated.
-
-- To **manually update npm dependencies:**
-  ```sh
-  cd frontend
-  npm outdated
-  npm update
-  ```
-- To **manually update PocketBase (backend):**
-  ```sh
-  cd backend
-  curl -fsSL https://pocketbase.io/releases/latest/pocketbase-linux-amd64 > pocketbase
-  chmod +x pocketbase
-  ```
+- PocketBase is used **headlessly** in-app, but can be accessed via the admin panel for schema/record management.
+- Data fetches are cached with **React Query**.
+- Addresses, Contacts, and Organizations are relationally linked using PocketBase’s native relations.
 
 ---
 
-## 🛠️ Technologies Used
+## 📌 Future Goals (Optional)
 
-| Tech | Purpose |
-|------|---------|
-| **React + Vite** | Frontend Framework |
-| **PocketBase** | Backend Database & Auth |
-| **Flowbite (Tailwind)** | UI Components |
-| **React Query** | State Management |
-| **TypeScript** | Typed Frontend Development |
-| **React Router** | Frontend Routing |
-| **Dependabot** | Automatic Dependency Updates |
-
----
-
-## 📌 Future Plans
-- ✅ **Improve UI animations & transitions**
-- ✅ **Add "Recent Interactions" to CRM Dashboard**
-- ✅ **Expand "Upcoming Events" with calendar integration**
-- ✅ **Add more modules (Tasks, Finance Tracker, etc.)**
-
----
-
-## 🤝 Contributing
-Feel free to open issues, create pull requests, or suggest features!
+- [ ] Add a Kanban view for Accounts by status  
+- [ ] Mobile PWA packaging  
+- [ ] Daily/Weekly Digest of CRM activity  
+- [ ] Role-based filtering or user tagging
 
 ---
 
 ## 📜 License
-This project is licensed under **MIT License**.
+
+MIT – do what you want, just don’t resell it as-is.
 

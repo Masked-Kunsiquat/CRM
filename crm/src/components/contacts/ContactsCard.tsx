@@ -1,8 +1,7 @@
-// crm/src/components/contacts/ContactsCard.tsx
 "use client";
 
 import { useState } from 'react';
-import { useHierarchicalContacts } from '../../api/useHierarchicalContacts';
+import { useContacts } from '../../api/useContacts';
 import OrgDetailCard from '../organizations/OrgDetailCard';
 import DataTable from '../shared/DataTable';
 
@@ -26,12 +25,17 @@ export function ContactsCard({
   // Force internal if it's the home company
   const effectiveTab = isHomeCompany ? 'internal' : activeTab;
 
-  const { data: contacts = [], isLoading, error } = useHierarchicalContacts({
-    context,
-    organizationId,
-    accountId,
-    subaccountId,
+  const entityId =
+    context === 'organization'
+      ? organizationId
+      : context === 'account'
+      ? accountId
+      : subaccountId;
+
+  const { data: contacts = [], isLoading, error } = useContacts({
     activeTab: effectiveTab,
+    entityType: context,
+    entityId: entityId || '',
   });
 
   const contactFields = ['first_name', 'last_name', 'role'];
@@ -41,8 +45,13 @@ export function ContactsCard({
     role: 'Role',
   };
 
-  if (isLoading) return <OrgDetailCard title="Contacts">Loading...</OrgDetailCard>;
-  if (error) return <OrgDetailCard title="Contacts">Error: {error.message}</OrgDetailCard>;
+  if (isLoading) {
+    return <OrgDetailCard title="Contacts">Loading...</OrgDetailCard>;
+  }
+
+  if (error) {
+    return <OrgDetailCard title="Contacts">Error: {error.message}</OrgDetailCard>;
+  }
 
   return (
     <OrgDetailCard title={isHomeCompany ? 'Coworkers' : 'Contacts'}>

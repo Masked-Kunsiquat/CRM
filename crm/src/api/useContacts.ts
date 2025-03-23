@@ -1,4 +1,3 @@
-// crm/src/api/useContacts.ts
 import { useQuery } from '@tanstack/react-query';
 import getPocketBase from './pocketbase';
 import { RecordModel } from 'pocketbase';
@@ -11,91 +10,79 @@ interface UseContactsOptions {
   activeTab: ActiveTab;
   entityType: 'organization' | 'account' | 'subaccount';
   entityId: string;
-  fallbackEntityId?: string;
+  expand?: string; // optional expand
 }
 
-const buildFilter = (
-  type: 'organization' | 'account' | 'subaccount',
-  id: string
-) => `${type} ~ "${id}"`;
+const fetchContacts = async (
+  collection: string,
+  entityType: 'organization' | 'account' | 'subaccount',
+  entityId: string,
+  expand?: string
+): Promise<RecordModel[]> => {
+  // Use ~ for multi-rel fields
+  const multiValued = ['organization', 'account']; // These are arrays in your data
+  const operator = multiValued.includes(entityType) ? '~' : '=';
+
+  const filter = `${entityType} ${operator} "${entityId}"`;
+
+  const result = await pb.collection(collection).getList(1, 50, {
+    filter,
+    expand,
+  });
+
+  return result.items;
+};
+
 
 export const useContacts = ({
   activeTab,
   entityType,
   entityId,
-  fallbackEntityId,
+  expand,
 }: UseContactsOptions) =>
   useQuery<RecordModel[], Error>({
-    queryKey: ['contacts', activeTab, entityType, entityId],
+    queryKey: ['contacts', activeTab, entityType, entityId, expand],
     queryFn: async () => {
-      const fetchFrom = async (collection: string, id: string) => {
-        const filter = buildFilter(entityType, id);
-        const result = await pb.collection(collection).getList(1, 50, { filter });
-        return result.items;
-      };
-
       if (!entityId) return [];
 
-      let data: RecordModel[] = [];
-
       if (activeTab === 'internal') {
-        data = await fetchFrom('coworkers', entityId);
-        if (data.length === 0 && fallbackEntityId) {
-          data = await fetchFrom('coworkers', fallbackEntityId);
-        }
-      } else if (activeTab === 'external') {
-        data = await fetchFrom('contacts', entityId);
-        if (data.length === 0 && fallbackEntityId) {
-          data = await fetchFrom('contacts', fallbackEntityId);
-        }
-      } else {
-        // All: fetch both and merge
-        const [internal, external] = await Promise.all([
-          fetchFrom('coworkers', entityId),
-          fetchFrom('contacts', entityId),
-        ]);
-        data = [...internal, ...external];
+        return await fetchContacts('coworkers', entityType, entityId, expand);
       }
 
-      return data;
+      if (activeTab === 'external') {
+        return await fetchContacts('contacts', entityType, entityId, expand);
+      }
+
+      const [internal, external] = await Promise.all([
+        fetchContacts('coworkers', entityType, entityId, expand),
+        fetchContacts('contacts', entityType, entityId, expand),
+      ]);
+
+      return [...internal, ...external];
     },
     enabled: !!entityId,
   });
 
-  export const getContactsData = async ({
-    activeTab,
-    entityType,
-    entityId,
-    fallbackEntityId,
-  }: UseContactsOptions): Promise<RecordModel[]> => {
-    const fetchFrom = async (collection: string, id: string) => {
-      const filter = buildFilter(entityType, id);
-      const result = await pb.collection(collection).getList(1, 50, { filter });
-      return result.items;
-    };
-  
-    if (!entityId) return [];
-  
-    let data: RecordModel[] = [];
-  
-    if (activeTab === 'internal') {
-      data = await fetchFrom('coworkers', entityId);
-      if (data.length === 0 && fallbackEntityId) {
-        data = await fetchFrom('coworkers', fallbackEntityId);
-      }
-    } else if (activeTab === 'external') {
-      data = await fetchFrom('contacts', entityId);
-      if (data.length === 0 && fallbackEntityId) {
-        data = await fetchFrom('contacts', fallbackEntityId);
-      }
-    } else {
-      const [internal, external] = await Promise.all([
-        fetchFrom('coworkers', entityId),
-        fetchFrom('contacts', entityId),
-      ]);
-      data = [...internal, ...external];
-    }
-  
-    return data;
-  };
-  
+export const getContactsData = async ({
+  activeTab,
+  entityType,
+  entityId,
+  expand,
+}: UseContactsOptions): Promise<RecordModel[]> => {
+  if (!entityId) return [];
+
+  if (activeTab === 'internal') {
+    return await fetchContacts('coworkers', entityType, entityId, expand);
+  }
+
+  if (activeTab === 'external') {
+    return await fetchContacts('contacts', entityType, entityId, expand);
+  }
+
+  const [internal, external] = await Promise.all([
+    fetchContacts('coworkers', entityType, entityId, expand),
+    fetchContacts('contacts', entityType, entityId, expand),
+  ]);
+
+  return [...internal, ...external];
+};
