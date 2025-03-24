@@ -13,14 +13,14 @@ updates:
       - "Masked-Kunsiquat"
 
   # Backend: Monitor PocketBase updates (if using Go modules)
-  - package-ecosystem: "gomod"
-    directory: "/backend" # ✅ If backend uses Go modules, Dependabot will scan go.mod
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "backend"
+#  - package-ecosystem: "gomod"
+#    directory: "/backend" # ✅ If backend uses Go modules, Dependabot will scan go.mod
+#    schedule:
+#      interval: "weekly"
+#    open-pull-requests-limit: 5
+#    labels:
+#      - "dependencies"
+#      - "backend"
 
   # GitHub Actions (if you have workflows)
   - package-ecosystem: "github-actions"
