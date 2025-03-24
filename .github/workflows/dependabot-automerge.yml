@@ -15,8 +15,7 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - name: Enable auto-merge for Dependabot PRs
+      - name: Enable auto-merge on Dependabot PRs
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           merge-method: squash
-          label: dependencies
