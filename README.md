@@ -88,6 +88,11 @@ npm run dev
 - Data fetches are cached with **React Query**.
 - Addresses, Contacts, and Organizations are relationally linked using PocketBase’s native relations.
 
+### Dependency Notes
+
+- **24 Mar 2025:** ⚠️ Using Tailwind CSS v4 with flowbite-react@0.10.2 and eslint-plugin-tailwindcss@3.18.0 — peer dep conflicts ignored for now since app runs fine. Will monitor for updates or breakages.
+
+
 ---
 
 ## 📌 Future Goals (Optional)
