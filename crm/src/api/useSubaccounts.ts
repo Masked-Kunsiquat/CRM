@@ -4,6 +4,7 @@ import { RecordModel } from 'pocketbase';
 
 const pb = getPocketBase();
 
+// 🔹 Fetch all subaccounts for given accounts
 const fetchSubaccounts = async (accounts: RecordModel[]): Promise<RecordModel[]> => {
   if (!accounts.length) return [];
 
@@ -27,8 +28,25 @@ const fetchSubaccounts = async (accounts: RecordModel[]): Promise<RecordModel[]>
 
 export const useSubaccounts = (accounts: RecordModel[]) => {
   return useQuery<RecordModel[], Error>({
-    queryKey: ['subaccounts', accounts.map(acc => acc.id)], // ensures re-fetch if accounts change
+    queryKey: ['subaccounts', accounts.map((acc) => acc.id)],
     queryFn: () => fetchSubaccounts(accounts),
-    enabled: accounts.length > 0, // Only runs if accounts exist
+    enabled: accounts.length > 0,
   });
 };
+
+// 🔹 Fetch single subaccount with expanded account + organization
+const fetchSubaccountById = async (subaccountId: string): Promise<RecordModel> => {
+  return await pb.collection('subaccounts').getOne(subaccountId, {
+    expand: 'account.organization',
+  });
+};
+
+export const useSubaccount = (subaccountId?: string) =>
+  useQuery<RecordModel, Error>({
+    queryKey: ['subaccount', subaccountId],
+    queryFn: () => {
+      if (!subaccountId) throw new Error('Missing subaccount ID');
+      return fetchSubaccountById(subaccountId);
+    },
+    enabled: !!subaccountId,
+  });

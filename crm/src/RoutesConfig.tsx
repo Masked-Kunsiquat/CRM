@@ -3,6 +3,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Organizations from './pages/Organizations';
 import OrgDetail from './pages/OrgDetail';
+import AccountDetail from './pages/AccountDetail';
+import SubAccountDetail from './pages/SubaccountDetail';
 import { Layout } from './components/shared/Layout';
 
 export function RoutesConfig() {
@@ -20,6 +22,14 @@ export function RoutesConfig() {
       <Route
         path="/organizations/:id"
         element={<Layout><OrgDetail /></Layout>}
+      />
+      <Route
+        path="/accounts/:id"
+        element={<Layout><AccountDetail /></Layout>}
+      />
+      <Route
+        path="/subaccounts/:id"
+        element={<Layout><SubAccountDetail /></Layout>}
       />
       <Route path="/" element={<Navigate to="/dashboard" />} />
     </Routes>

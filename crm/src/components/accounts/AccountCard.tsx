@@ -12,7 +12,6 @@ function AccountCard({ accounts }: AccountCardProps) {
   const accountFieldLabels = {
     name: 'Name',
     status: 'Status',
-    created: 'Created',
   };
 
   const formattedAccounts = useMemo(() => {
@@ -29,6 +28,7 @@ function AccountCard({ accounts }: AccountCardProps) {
           data={formattedAccounts}
           fields={accountFields}
           fieldLabels={accountFieldLabels}
+          entityPath="accounts" // 👈 adds clickable row logic
         />
       ) : (
         <p className="text-gray-900 dark:text-white">No Accounts Found</p>
