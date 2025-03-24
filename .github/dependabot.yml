@@ -2,7 +2,7 @@ version: 2
 updates:
   # Frontend: Monitor npm dependencies
   - package-ecosystem: "npm"
-    directory: "/frontend" # ✅ This ensures Dependabot scans package.json inside frontend
+    directory: "/crm" # ✅ This ensures Dependabot scans package.json inside frontend
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
