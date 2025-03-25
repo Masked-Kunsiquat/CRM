@@ -20,17 +20,27 @@ const AddressCard = ({ title, type, address }: AddressCardProps) => {
   if (!address) {
     return (
       <OrgDetailCard title={title || formatType(type)}>
-        <p className="text-gray-500 dark:text-gray-400 italic">No address available</p>
+        <p className="italic text-gray-500 dark:text-gray-400">
+          No address available
+        </p>
       </OrgDetailCard>
     );
   }
 
   return (
     <OrgDetailCard title={title || formatType(type)}>
-      <p><strong>Street:</strong> {address.street || "N/A"}</p>
-      <p><strong>City:</strong> {address.city || "N/A"}</p>
-      <p><strong>State:</strong> {address.state || "N/A"}</p>
-      <p><strong>Zip:</strong> {address.zip_code || "N/A"}</p>
+      <p>
+        <strong>Street:</strong> {address.street || "N/A"}
+      </p>
+      <p>
+        <strong>City:</strong> {address.city || "N/A"}
+      </p>
+      <p>
+        <strong>State:</strong> {address.state || "N/A"}
+      </p>
+      <p>
+        <strong>Zip:</strong> {address.zip_code || "N/A"}
+      </p>
     </OrgDetailCard>
   );
 };

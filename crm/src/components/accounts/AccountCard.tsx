@@ -1,23 +1,23 @@
-import { memo, useMemo } from 'react';
-import { RecordModel } from 'pocketbase';
-import OrgDetailCard from '../organizations/OrgDetailCard';
-import DataTable from '../shared/DataTable';
+import { memo, useMemo } from "react";
+import { RecordModel } from "pocketbase";
+import OrgDetailCard from "../organizations/OrgDetailCard";
+import DataTable from "../shared/DataTable";
 
 interface AccountCardProps {
   accounts: RecordModel[];
 }
 
 function AccountCard({ accounts }: AccountCardProps) {
-  const accountFields = ['name', 'status'];
+  const accountFields = ["name", "status"];
   const accountFieldLabels = {
-    name: 'Name',
-    status: 'Status',
+    name: "Name",
+    status: "Status",
   };
 
   const formattedAccounts = useMemo(() => {
     return accounts.map((account) => ({
       ...account,
-      status: account.status === 'active' ? '✅' : '❌',
+      status: account.status === "active" ? "✅" : "❌",
     }));
   }, [accounts]);
 

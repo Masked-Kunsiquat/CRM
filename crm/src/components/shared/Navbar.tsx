@@ -22,12 +22,20 @@ export function NavbarComponent() {
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Navbar.Link as={Link} to="/organizations" active={isActive("/organizations")}>
+        <Navbar.Link
+          as={Link}
+          to="/organizations"
+          active={isActive("/organizations")}
+        >
           Organizations
         </Navbar.Link>
         {user ? (
           <>
-            <Navbar.Link as={Link} to="/dashboard" active={isActive("/dashboard")}>
+            <Navbar.Link
+              as={Link}
+              to="/dashboard"
+              active={isActive("/dashboard")}
+            >
               Dashboard
             </Navbar.Link>
             <Navbar.Link onClick={logout}>Logout</Navbar.Link>
@@ -37,7 +45,7 @@ export function NavbarComponent() {
             Login
           </Navbar.Link>
         )}
-        <div className="flex items-center ml-2">
+        <div className="ml-2 flex items-center">
           <DarkThemeToggle aria-label="Toggle dark mode" />
         </div>
       </Navbar.Collapse>

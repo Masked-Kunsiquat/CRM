@@ -1,8 +1,8 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import { RoutesConfig } from './RoutesConfig';
+import { BrowserRouter as Router } from "react-router-dom";
+import { RoutesConfig } from "./RoutesConfig";
 
 function App() {
-  console.log('App.tsx - Router rendered');
+  console.log("App.tsx - Router rendered");
 
   return (
     <Router>

@@ -28,8 +28,8 @@ export function CompanyLogo({
     .slice(0, 2);
 
   return (
-    <div className="w-full flex justify-center mb-6">
-      <div className="border rounded-xl p-4 bg-white dark:bg-gray-800 shadow-lg w-full md:w-3/4 lg:w-1/2">
+    <div className="mb-6 flex w-full justify-center">
+      <div className="w-full rounded-xl border bg-white p-4 shadow-lg dark:bg-gray-800 md:w-3/4 lg:w-1/2">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -38,7 +38,10 @@ export function CompanyLogo({
           />
         ) : (
           <div className="flex justify-center">
-            <Avatar placeholderInitials={initials || "?"} className="h-24 w-24 text-3xl" />
+            <Avatar
+              placeholderInitials={initials || "?"}
+              className="h-24 w-24 text-3xl"
+            />
           </div>
         )}
       </div>

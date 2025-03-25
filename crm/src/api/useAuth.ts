@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import getPocketBase from '../api/pocketbase';
-import { RecordAuthResponse, RecordModel } from 'pocketbase';
+import { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import getPocketBase from "../api/pocketbase";
+import { RecordAuthResponse, RecordModel } from "pocketbase";
 
 const pb = getPocketBase();
 
@@ -22,7 +22,7 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
 
   const [user, setUser] = useState<User | null>(
-    pb.authStore.isValid ? (pb.authStore.model as User) : null
+    pb.authStore.isValid ? (pb.authStore.model as User) : null,
   );
 
   useEffect(() => {
@@ -33,21 +33,25 @@ export const useAuth = () => {
     return () => unsubscribe();
   }, []);
 
-  const loginMutation = useMutation<RecordAuthResponse<User>, Error, LoginCredentials>({
+  const loginMutation = useMutation<
+    RecordAuthResponse<User>,
+    Error,
+    LoginCredentials
+  >({
     mutationFn: ({ email, password }) =>
-      pb.collection('users').authWithPassword<User>(email, password, {
+      pb.collection("users").authWithPassword<User>(email, password, {
         requestKey: null, // 🚩 Prevent autocancellation
       }),
 
     onSuccess: (authData) => {
       setUser(authData.record);
-      console.log('Login successful!');
-      navigate('/dashboard');
+      console.log("Login successful!");
+      navigate("/dashboard");
       queryClient.invalidateQueries();
     },
 
     onError: (err: Error) => {
-      console.error('Login error:', err);
+      console.error("Login error:", err);
     },
   });
 
@@ -55,7 +59,7 @@ export const useAuth = () => {
     pb.authStore.clear();
     setUser(null);
     queryClient.clear();
-    navigate('/login');
+    navigate("/login");
   };
 
   return {
