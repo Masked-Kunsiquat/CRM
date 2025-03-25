@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Subaccount detail page.
+ *
+ * - Fetches a subaccount by ID using `useSubaccount`
+ * - Displays subaccount name and renders related contacts
+ * - Contacts are linked via `organizationId`, `accountId`, and `subaccountId`
+ * - Handles loading and error states
+ */
+
 import { useParams } from "react-router-dom";
 import { useSubaccount } from "../api/useSubaccounts";
 import ContactsCard from "../components/contacts/ContactsCard";

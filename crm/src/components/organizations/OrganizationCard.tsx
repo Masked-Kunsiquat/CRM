@@ -2,6 +2,14 @@
 
 import { Link } from "react-router-dom";
 
+/**
+ * A simple overview card that links to the organizations list page.
+ *
+ * - Displays a title, description, and CTA button
+ * - Styled as a card with dark mode support
+ *
+ * @returns {JSX.Element} A UI card with a link to `/organizations`
+ */
 function OrganizationCard() {
   return (
     <div className="rounded-md bg-white p-6 shadow-md dark:bg-gray-800">

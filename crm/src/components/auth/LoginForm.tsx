@@ -11,6 +11,17 @@ interface LoginFormProps {
   onSubmit: (e: FormEvent) => void;
 }
 
+/**
+ * A controlled login form component.
+ *
+ * - Accepts external state for `email`, `password`, and `error`
+ * - Calls `setEmail` and `setPassword` on input changes
+ * - Invokes `onSubmit` handler when the form is submitted
+ * - Displays validation error (if provided) at the top
+ *
+ * @param {LoginFormProps} props - Props for managing form state and handlers
+ * @returns {JSX.Element} A styled login form
+ */
 export const LoginForm = ({
   email,
   password,

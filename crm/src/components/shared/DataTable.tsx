@@ -14,6 +14,18 @@ interface DataTableProps {
   emptyMessage?: string;
 }
 
+/**
+ * A flexible, reusable table component for displaying PocketBase records.
+ *
+ * - Automatically renders clickable names (links to `/${entityPath}/${item.id}`)
+ * - Displays an "Edit" column with links to `/${entityPath}/edit/${item.id}`
+ * - Handles booleans with ✓ or ✗ and applies red text for `false` values
+ * - Supports optional loading and empty states
+ * - Allows selection of rows via checkboxes (not exposed externally yet)
+ *
+ * @param {DataTableProps} props - Props for controlling data, fields, and labels
+ * @returns {JSX.Element} A responsive table UI for record data
+ */
 function DataTable({
   data = [],
   fields,

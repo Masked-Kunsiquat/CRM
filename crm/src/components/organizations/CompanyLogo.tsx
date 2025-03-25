@@ -9,6 +9,16 @@ interface CompanyLogoProps {
   collectionId: string;
 }
 
+/**
+ * Renders a company logo image or fallback initials using `Avatar`.
+ *
+ * - Constructs the image URL from PocketBase if `logo` is provided
+ * - Falls back to initials from `orgName` if no logo exists
+ * - Applies a consistent layout and container styling
+ *
+ * @param {CompanyLogoProps} props - Props for building the logo display
+ * @returns {JSX.Element} A styled logo section for a company or organization
+ */
 export function CompanyLogo({
   logo,
   orgId,

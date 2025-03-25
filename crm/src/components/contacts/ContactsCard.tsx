@@ -13,6 +13,17 @@ type ContactsCardProps = {
   isHomeCompany?: boolean;
 };
 
+/**
+ * Displays a contacts table for a given context (organization, account, or subaccount).
+ *
+ * - Fetches internal, external, or both contact types using `useContacts`
+ * - If `isHomeCompany` is true, the view is locked to internal contacts only and labeled "Coworkers"
+ * - Otherwise, renders tab buttons to toggle between All / Internal / External contacts
+ * - Renders a `DataTable` if data is found, or fallback messages for loading/error/empty states
+ *
+ * @param {ContactsCardProps} props - Entity context and ID info to determine which contacts to fetch
+ * @returns {JSX.Element} A section card containing contacts or coworkers
+ */
 export function ContactsCard({
   context,
   organizationId,

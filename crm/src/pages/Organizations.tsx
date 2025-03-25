@@ -1,6 +1,15 @@
 // Organizations.tsx
 "use client";
 
+/**
+ * Organizations list page.
+ *
+ * - Fetches a paginated list of organizations using `useOrganizations`
+ * - Renders a reusable `OrganizationsTable`
+ * - Includes basic pagination controls (Previous / Next)
+ * - Handles loading and error states
+ */
+
 import { useState } from "react";
 import { useOrganizations } from "../api/useOrganizations";
 import { OrganizationsTable } from "../components/organizations/OrganizationsTable";
