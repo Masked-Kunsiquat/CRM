@@ -1,5 +1,5 @@
 // Layout.tsx
-import { NavbarComponent } from './Navbar';
+import { NavbarComponent } from "./Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,9 +10,7 @@ export function Layout({ children }: LayoutProps) {
     <div>
       <NavbarComponent />
       <div className="dark:bg-gray-800">
-        <div className="p-4">
-          {children}
-        </div>
+        <div className="p-4">{children}</div>
       </div>
     </div>
   );

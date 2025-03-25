@@ -1,27 +1,27 @@
-import { useQuery } from '@tanstack/react-query';
-import getPocketBase from './pocketbase';
-import { RecordModel } from 'pocketbase';
+import { useQuery } from "@tanstack/react-query";
+import getPocketBase from "./pocketbase";
+import { RecordModel } from "pocketbase";
 
 const pb = getPocketBase();
 
-type ActiveTab = 'internal' | 'external' | 'all';
+type ActiveTab = "internal" | "external" | "all";
 
 interface UseContactsOptions {
   activeTab: ActiveTab;
-  entityType: 'organization' | 'account' | 'subaccount';
+  entityType: "organization" | "account" | "subaccount";
   entityId: string;
   expand?: string; // optional expand
 }
 
 const fetchContacts = async (
   collection: string,
-  entityType: 'organization' | 'account' | 'subaccount',
+  entityType: "organization" | "account" | "subaccount",
   entityId: string,
-  expand?: string
+  expand?: string,
 ): Promise<RecordModel[]> => {
   // Use ~ for multi-rel fields
-  const multiValued = ['organization', 'account']; // These are arrays in your data
-  const operator = multiValued.includes(entityType) ? '~' : '=';
+  const multiValued = ["organization", "account"]; // These are arrays in your data
+  const operator = multiValued.includes(entityType) ? "~" : "=";
 
   const filter = `${entityType} ${operator} "${entityId}"`;
 
@@ -33,7 +33,6 @@ const fetchContacts = async (
   return result.items;
 };
 
-
 export const useContacts = ({
   activeTab,
   entityType,
@@ -41,21 +40,21 @@ export const useContacts = ({
   expand,
 }: UseContactsOptions) =>
   useQuery<RecordModel[], Error>({
-    queryKey: ['contacts', activeTab, entityType, entityId, expand],
+    queryKey: ["contacts", activeTab, entityType, entityId, expand],
     queryFn: async () => {
       if (!entityId) return [];
 
-      if (activeTab === 'internal') {
-        return await fetchContacts('coworkers', entityType, entityId, expand);
+      if (activeTab === "internal") {
+        return await fetchContacts("coworkers", entityType, entityId, expand);
       }
 
-      if (activeTab === 'external') {
-        return await fetchContacts('contacts', entityType, entityId, expand);
+      if (activeTab === "external") {
+        return await fetchContacts("contacts", entityType, entityId, expand);
       }
 
       const [internal, external] = await Promise.all([
-        fetchContacts('coworkers', entityType, entityId, expand),
-        fetchContacts('contacts', entityType, entityId, expand),
+        fetchContacts("coworkers", entityType, entityId, expand),
+        fetchContacts("contacts", entityType, entityId, expand),
       ]);
 
       return [...internal, ...external];
@@ -71,17 +70,17 @@ export const getContactsData = async ({
 }: UseContactsOptions): Promise<RecordModel[]> => {
   if (!entityId) return [];
 
-  if (activeTab === 'internal') {
-    return await fetchContacts('coworkers', entityType, entityId, expand);
+  if (activeTab === "internal") {
+    return await fetchContacts("coworkers", entityType, entityId, expand);
   }
 
-  if (activeTab === 'external') {
-    return await fetchContacts('contacts', entityType, entityId, expand);
+  if (activeTab === "external") {
+    return await fetchContacts("contacts", entityType, entityId, expand);
   }
 
   const [internal, external] = await Promise.all([
-    fetchContacts('coworkers', entityType, entityId, expand),
-    fetchContacts('contacts', entityType, entityId, expand),
+    fetchContacts("coworkers", entityType, entityId, expand),
+    fetchContacts("contacts", entityType, entityId, expand),
   ]);
 
   return [...internal, ...external];

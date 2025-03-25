@@ -1,11 +1,11 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Organizations from './pages/Organizations';
-import OrgDetail from './pages/OrgDetail';
-import AccountDetail from './pages/AccountDetail';
-import SubAccountDetail from './pages/SubaccountDetail';
-import { Layout } from './components/shared/Layout';
+import { Route, Routes, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Organizations from "./pages/Organizations";
+import OrgDetail from "./pages/OrgDetail";
+import AccountDetail from "./pages/AccountDetail";
+import SubAccountDetail from "./pages/SubaccountDetail";
+import { Layout } from "./components/shared/Layout";
 
 export function RoutesConfig() {
   return (
@@ -13,23 +13,43 @@ export function RoutesConfig() {
       <Route path="/login" element={<Login />} />
       <Route
         path="/dashboard"
-        element={<Layout><Dashboard /></Layout>}
+        element={
+          <Layout>
+            <Dashboard />
+          </Layout>
+        }
       />
       <Route
         path="/organizations"
-        element={<Layout><Organizations /></Layout>}
+        element={
+          <Layout>
+            <Organizations />
+          </Layout>
+        }
       />
       <Route
         path="/organizations/:id"
-        element={<Layout><OrgDetail /></Layout>}
+        element={
+          <Layout>
+            <OrgDetail />
+          </Layout>
+        }
       />
       <Route
         path="/accounts/:id"
-        element={<Layout><AccountDetail /></Layout>}
+        element={
+          <Layout>
+            <AccountDetail />
+          </Layout>
+        }
       />
       <Route
         path="/subaccounts/:id"
-        element={<Layout><SubAccountDetail /></Layout>}
+        element={
+          <Layout>
+            <SubAccountDetail />
+          </Layout>
+        }
       />
       <Route path="/" element={<Navigate to="/dashboard" />} />
     </Routes>

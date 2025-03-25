@@ -1,0 +1,9 @@
+# Default stuff
+node_modules
+dist
+build
+
+# PocketBase backend (if you're running Prettier from root or formatting monorepo-wide)
+backend/pb_data
+backend/pb_migrations
+backend/pocketbase

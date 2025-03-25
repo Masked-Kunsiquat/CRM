@@ -1,6 +1,6 @@
 // LoginForm.tsx
-import { FormEvent } from 'react';
-import { Button, Label, TextInput } from 'flowbite-react';
+import { FormEvent } from "react";
+import { Button, Label, TextInput } from "flowbite-react";
 
 interface LoginFormProps {
   email: string;
@@ -20,8 +20,11 @@ export const LoginForm = ({
   onSubmit,
 }: LoginFormProps) => {
   return (
-    <form onSubmit={onSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <form
+      onSubmit={onSubmit}
+      className="w-full max-w-md rounded-md bg-white p-6 shadow-md"
+    >
+      {error && <p className="mb-4 text-red-500">{error}</p>}
       <div>
         <div className="mb-2 block">
           <Label htmlFor="email1" value="Your email" />
@@ -31,7 +34,7 @@ export const LoginForm = ({
           type="email"
           placeholder="name@example.com"
           required
-          autoComplete='email'
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -44,13 +47,13 @@ export const LoginForm = ({
           id="password1"
           type="password"
           placeholder="Password"
-          autoComplete='current-password'
+          autoComplete="current-password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <Button type="submit" className="w-full mt-4">
+      <Button type="submit" className="mt-4 w-full">
         Submit
       </Button>
     </form>

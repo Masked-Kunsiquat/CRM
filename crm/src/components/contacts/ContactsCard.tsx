@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
-import { useContacts } from '../../api/useContacts';
-import OrgDetailCard from '../organizations/OrgDetailCard';
-import DataTable from '../shared/DataTable';
+import { useState } from "react";
+import { useContacts } from "../../api/useContacts";
+import OrgDetailCard from "../organizations/OrgDetailCard";
+import DataTable from "../shared/DataTable";
 
 type ContactsCardProps = {
-  context: 'organization' | 'account' | 'subaccount';
+  context: "organization" | "account" | "subaccount";
   organizationId: string;
   accountId?: string;
   subaccountId?: string;
@@ -20,29 +20,35 @@ export function ContactsCard({
   subaccountId,
   isHomeCompany = false,
 }: ContactsCardProps) {
-  const [activeTab, setActiveTab] = useState<'internal' | 'external' | 'all'>('all');
+  const [activeTab, setActiveTab] = useState<"internal" | "external" | "all">(
+    "all",
+  );
 
   // Force internal if it's the home company
-  const effectiveTab = isHomeCompany ? 'internal' : activeTab;
+  const effectiveTab = isHomeCompany ? "internal" : activeTab;
 
   const entityId =
-    context === 'organization'
+    context === "organization"
       ? organizationId
-      : context === 'account'
-      ? accountId
-      : subaccountId;
+      : context === "account"
+        ? accountId
+        : subaccountId;
 
-  const { data: contacts = [], isLoading, error } = useContacts({
+  const {
+    data: contacts = [],
+    isLoading,
+    error,
+  } = useContacts({
     activeTab: effectiveTab,
     entityType: context,
-    entityId: entityId || '',
+    entityId: entityId || "",
   });
 
-  const contactFields = ['first_name', 'last_name', 'role'];
+  const contactFields = ["first_name", "last_name", "role"];
   const contactFieldLabels = {
-    first_name: 'First Name',
-    last_name: 'Last Name',
-    role: 'Role',
+    first_name: "First Name",
+    last_name: "Last Name",
+    role: "Role",
   };
 
   if (isLoading) {
@@ -50,28 +56,30 @@ export function ContactsCard({
   }
 
   if (error) {
-    return <OrgDetailCard title="Contacts">Error: {error.message}</OrgDetailCard>;
+    return (
+      <OrgDetailCard title="Contacts">Error: {error.message}</OrgDetailCard>
+    );
   }
 
   return (
-    <OrgDetailCard title={isHomeCompany ? 'Coworkers' : 'Contacts'}>
+    <OrgDetailCard title={isHomeCompany ? "Coworkers" : "Contacts"}>
       {!isHomeCompany && (
         <div className="mb-4">
           <button
-            className={`px-4 py-2 rounded-l-lg ${activeTab === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}
-            onClick={() => setActiveTab('all')}
+            className={`rounded-l-lg px-4 py-2 ${activeTab === "all" ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-gray-300"}`}
+            onClick={() => setActiveTab("all")}
           >
             All
           </button>
           <button
-            className={`px-4 py-2 ${activeTab === 'internal' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}
-            onClick={() => setActiveTab('internal')}
+            className={`px-4 py-2 ${activeTab === "internal" ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-gray-300"}`}
+            onClick={() => setActiveTab("internal")}
           >
             Internal
           </button>
           <button
-            className={`px-4 py-2 rounded-r-lg ${activeTab === 'external' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}
-            onClick={() => setActiveTab('external')}
+            className={`rounded-r-lg px-4 py-2 ${activeTab === "external" ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-gray-300"}`}
+            onClick={() => setActiveTab("external")}
           >
             External
           </button>

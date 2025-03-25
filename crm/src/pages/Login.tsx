@@ -1,14 +1,14 @@
 // Login.tsx
 "use client";
 
-import { useState, FormEvent } from 'react';
-import { useAuth } from '../api/useAuth';
-import { LoginForm } from '../components/auth/LoginForm';
+import { useState, FormEvent } from "react";
+import { useAuth } from "../api/useAuth";
+import { LoginForm } from "../components/auth/LoginForm";
 
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const { login, loginError, loginLoading } = useAuth();
 
   const handleLogin = (e: FormEvent) => {
@@ -17,11 +17,11 @@ export function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex h-screen items-center justify-center">
       <LoginForm
         email={email}
         password={password}
-        error={loginError ? loginError.message : ''}
+        error={loginError ? loginError.message : ""}
         setEmail={setEmail}
         setPassword={setPassword}
         onSubmit={handleLogin}
