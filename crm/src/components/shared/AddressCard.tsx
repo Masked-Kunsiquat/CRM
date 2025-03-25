@@ -16,6 +16,16 @@ type AddressCardProps = {
   address: Address | null;
 };
 
+/**
+ * Displays an address inside an `OrgDetailCard`.
+ *
+ * - If no address is provided, shows a fallback message
+ * - Can auto-generate a title based on `type` ("site", "parking") or accept a custom `title`
+ * - Each field (street, city, state, zip) falls back to `"N/A"` if missing
+ *
+ * @param {AddressCardProps} props - Address data, type, and optional title override
+ * @returns {JSX.Element} A card containing the formatted address or a fallback message
+ */
 const AddressCard = ({ title, type, address }: AddressCardProps) => {
   if (!address) {
     return (

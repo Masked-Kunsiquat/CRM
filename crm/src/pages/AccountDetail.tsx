@@ -1,3 +1,11 @@
+/**
+ * Account detail view page.
+ *
+ * - Fetches an account by ID and displays its info
+ * - Includes associated addresses and linked contacts
+ * - Allows navigation back or to the edit screen
+ */
+
 import { useParams, useNavigate } from "react-router-dom";
 import { useAccount } from "../api/useAccounts";
 import ContactsCard from "../components/contacts/ContactsCard";

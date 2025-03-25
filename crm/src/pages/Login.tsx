@@ -1,6 +1,13 @@
 // Login.tsx
 "use client";
 
+/**
+ * Login page.
+ *
+ * - Renders a centered login form
+ * - Uses `useAuth` to trigger login logic and handle error/loading state
+ */
+
 import { useState, FormEvent } from "react";
 import { useAuth } from "../api/useAuth";
 import { LoginForm } from "../components/auth/LoginForm";

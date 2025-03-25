@@ -3,6 +3,16 @@ import { Navbar } from "flowbite-react";
 import { useAuth } from "../../api/useAuth";
 import { DarkThemeToggle } from "flowbite-react";
 
+/**
+ * App-wide navigation bar component.
+ *
+ * - Shows login/logout options based on auth state
+ * - Highlights the active route based on `useLocation`
+ * - Includes a dark mode toggle using Flowbite's `DarkThemeToggle`
+ * - Displays a "Dashboard" link only when authenticated
+ *
+ * @returns {JSX.Element} A responsive navbar with routing and theme support
+ */
 export function NavbarComponent() {
   const { user, logout, loginLoading } = useAuth();
   const location = useLocation();

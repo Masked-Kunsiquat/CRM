@@ -7,6 +7,19 @@ interface AccountCardProps {
   accounts: RecordModel[];
 }
 
+/**
+ * Displays a list of accounts inside an `OrgDetailCard` container.
+ *
+ * - Accepts an array of `RecordModel` accounts as props.
+ * - Maps the account `status` field to a visual indicator:
+ *   - `"active"` → ✅
+ *   - otherwise → ❌
+ * - Renders a `DataTable` with clickable rows linking to `/accounts/:id`.
+ * - Falls back to a "No Accounts Found" message if the list is empty.
+ *
+ * @param {AccountCardProps} props - Component props
+ * @returns {JSX.Element} A card displaying the formatted account data.
+ */
 function AccountCard({ accounts }: AccountCardProps) {
   const accountFields = ["name", "status"];
   const accountFieldLabels = {

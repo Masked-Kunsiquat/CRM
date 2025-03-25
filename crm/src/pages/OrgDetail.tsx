@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Organization detail page.
+ *
+ * - Fetches organization and related account data via `useOrgDetail` and `useAccounts`
+ * - Displays general info, address, contacts, and optionally accounts/subaccounts
+ * - If marked as the "home company", only internal contacts are shown (no accounts/subaccounts)
+ * - Includes a back button and organization logo display if available
+ */
+
 import { useNavigate } from "react-router-dom";
 import { useOrgDetail } from "../api/useOrgDetail";
 import { useAccounts } from "../api/useAccounts";

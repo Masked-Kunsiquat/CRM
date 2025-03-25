@@ -4,7 +4,14 @@ import { RecordModel } from "pocketbase";
 
 const pb = getPocketBase();
 
-// 🔹 Fetch all subaccounts for given accounts
+/**
+ * Fetches all subaccounts associated with the provided list of accounts.
+ *
+ * Each subaccount includes an `accountName` field from the expanded account.
+ *
+ * @param accounts - Array of account records to fetch subaccounts for.
+ * @returns A flattened array of subaccount records with expanded account data.
+ */
 const fetchSubaccounts = async (
   accounts: RecordModel[],
 ): Promise<RecordModel[]> => {
@@ -30,6 +37,12 @@ const fetchSubaccounts = async (
   return allSubaccounts.flat();
 };
 
+/**
+ * React Query hook to fetch subaccounts for a given array of account records.
+ *
+ * @param accounts - Array of account records to fetch subaccounts for.
+ * @returns React Query result containing the list of subaccounts or error state.
+ */
 export const useSubaccounts = (accounts: RecordModel[]) => {
   return useQuery<RecordModel[], Error>({
     queryKey: ["subaccounts", accounts.map((acc) => acc.id)],
@@ -38,7 +51,12 @@ export const useSubaccounts = (accounts: RecordModel[]) => {
   });
 };
 
-// 🔹 Fetch single subaccount with expanded account + organization
+/**
+ * Fetches a single subaccount by its ID, expanding both the linked account and organization.
+ *
+ * @param subaccountId - The ID of the subaccount to fetch.
+ * @returns A promise resolving to the subaccount record with expanded data.
+ */
 const fetchSubaccountById = async (
   subaccountId: string,
 ): Promise<RecordModel> => {
@@ -47,6 +65,13 @@ const fetchSubaccountById = async (
   });
 };
 
+/**
+ * React Query hook to fetch a single subaccount by ID.
+ * Expands the related account and its organization.
+ *
+ * @param subaccountId - The ID of the subaccount to fetch.
+ * @returns React Query result containing the subaccount or error state.
+ */
 export const useSubaccount = (subaccountId?: string) =>
   useQuery<RecordModel, Error>({
     queryKey: ["subaccount", subaccountId],

@@ -8,6 +8,16 @@ interface SubaccountsCardProps {
   accounts: RecordModel[];
 }
 
+/**
+ * Displays a table of subaccounts associated with one or more accounts.
+ *
+ * - Fetches subaccounts via `useSubaccounts`, expanding their linked account
+ * - Displays fields: name, accountName, and status (✅ / ❌)
+ * - Wraps output in `OrgDetailCard` and handles loading, error, and empty states
+ *
+ * @param {SubaccountsCardProps} props - Props containing account records to fetch subaccounts for
+ * @returns {JSX.Element} A card containing a table of subaccounts
+ */
 function SubaccountsCard({ accounts }: SubaccountsCardProps) {
   const { data: subaccounts, isLoading, error } = useSubaccounts(accounts);
 
@@ -42,7 +52,7 @@ function SubaccountsCard({ accounts }: SubaccountsCardProps) {
           data={formattedSubaccounts}
           fields={subaccountFields}
           fieldLabels={subaccountFieldLabels}
-          entityPath="/subaccounts" // added here
+          entityPath="/subaccounts"
         />
       ) : (
         <p className="text-gray-900 dark:text-white">No Subaccounts Found</p>

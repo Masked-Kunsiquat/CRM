@@ -6,6 +6,15 @@ interface OrganizationsTableProps {
   organizations: RecordModel[];
 }
 
+/**
+ * Displays a table of organization records using the shared `DataTable` component.
+ *
+ * - Shows columns: Name, Active status, City, Created, and Updated timestamps.
+ * - Enables row linking via `entityPath="organizations"`
+ *
+ * @param {OrganizationsTableProps} props - Props containing organization records
+ * @returns {JSX.Element} A data table displaying the organizations
+ */
 export const OrganizationsTable = ({
   organizations,
 }: OrganizationsTableProps) => {
