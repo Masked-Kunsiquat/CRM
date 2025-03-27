@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildFloorMatrix } from "./buildFloorMatrix";
+import { buildFloorMatrix } from "../../../utils/buildFloorMatrix";
 
 describe("buildFloorMatrix", () => {
   // Basic successful scenario

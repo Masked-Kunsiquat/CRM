@@ -35,7 +35,7 @@ export type FloorMatrix = Record<
 
 /**
  * Formats a date from 'YYYY-MM-DD' to 'MM-YYYY' format
- * 
+ *
  * @param dateStr - The date string in 'YYYY-MM-DD' format
  * @returns The formatted date in 'MM-YYYY' format
  * @throws Error if the date string is not in the expected format
@@ -51,27 +51,27 @@ const formatDateToMonthYear = (dateStr: string): string => {
 
 /**
  * Builds a matrix showing the status of each floor for each month based on account configuration and audit history
- * 
+ *
  * The matrix provides a comprehensive view of floor visitation patterns over time, with each floor
  * marked as either 'visited', 'skipped', or 'excluded' for each month.
- * 
+ *
  * @param account - The account object containing floor configuration
  * @param audits - Array of audit records showing which floors were visited on which dates
  * @returns A floor matrix mapping each floor to its status for each month
  * @throws Error if account or audit data is invalid
- * 
+ *
  * @example
  * const account = {
  *   floors_min: 1,
  *   floors_max: 10,
  *   excluded_floors: [13]
  * };
- * 
+ *
  * const audits = [
  *   { date: '2023-01-15', visited_floors: [1, 2, 3] },
  *   { date: '2023-02-10', visited_floors: [4, 5, 6] }
  * ];
- * 
+ *
  * const matrix = buildFloorMatrix(account, audits);
  */
 export function buildFloorMatrix(
