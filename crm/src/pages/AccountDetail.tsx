@@ -5,7 +5,7 @@ import { useAccountAudits } from "../api/useAccountAudits";
 import type { AuditStatus } from "../api/useAuditStatus";
 import ContactsCard from "../components/contacts/ContactsCard";
 import AddressCard from "../components/shared/AddressCard";
-import FloorMatrix from "../components/audits/FloorMatrix";
+import FloorMatrix from "../components/audits/FloorMatrix/index";
 import { Badge, Tooltip } from "flowbite-react";
 
 function getAuditTooltip(status: AuditStatus): string | undefined {
@@ -132,30 +132,6 @@ export default function AccountDetail() {
         )}
       </div>
 
-      {/* Floor Matrix Card */}
-      {auditData?.floorMatrix && (
-        <div className="mb-6">
-          <FloorMatrix 
-            data={auditData.floorMatrix} 
-            title={`Floor Visit History (${account.floors_min || 1}-${account.floors_max || 1})`} 
-            className="w-full"
-          />
-        </div>
-      )}
-      {!auditData?.floorMatrix && account.floors_min && account.floors_max && (
-        <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Floor Visit History
-          </h5>
-          <p className="text-gray-500 dark:text-gray-400">
-            {auditData?.audits?.length ? 
-              "Floor matrix could not be generated. Check floor configuration." : 
-              "No audit data available for this account yet."
-            }
-          </p>
-        </div>
-      )}
-
       {Array.isArray(account.expand?.address) &&
         account.expand.address.length > 0 && (
           <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -170,6 +146,31 @@ export default function AccountDetail() {
         organizationId={account.expand?.organization?.id || ""}
         accountId={account.id}
       />
+      
+      {/* Floor Matrix Card moved to the bottom */}
+      {auditData?.floorMatrix && (
+        <div className="mt-6">
+          <FloorMatrix 
+            data={auditData.floorMatrix} 
+            title={`Floor Visit History (${account.floors_min || 1}-${account.floors_max || 1})`} 
+            className="w-full"
+            audits={auditData.audits}
+          />
+        </div>
+      )}
+      {!auditData?.floorMatrix && account.floors_min && account.floors_max && (
+        <div className="overflow-x-auto p-2 pl-4 mt-6 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Floor Visit History
+          </h5>
+          <p className="text-gray-500 dark:text-gray-400">
+            {auditData?.audits?.length ? 
+              "Floor matrix could not be generated. Check floor configuration." : 
+              "No audit data available for this account yet."
+            }
+          </p>
+        </div>
+      )}
     </div>
   );
 }
