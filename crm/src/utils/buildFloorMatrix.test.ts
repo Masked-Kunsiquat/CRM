@@ -98,7 +98,7 @@ describe("buildFloorMatrix", () => {
           { floors_min: 1, floors_max: 5, excluded_floors: [] },
           [{ date: "invalid-date", visited_floors: [1] }],
         ),
-      ).toThrow("Invalid date format");
+      ).toThrow("/Invalid date format.*Expected 'YYYY-MM-DD'/");
     });
   });
 
