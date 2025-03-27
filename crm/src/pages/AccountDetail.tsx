@@ -10,7 +10,9 @@ import { Tooltip } from "flowbite-react"; // make sure it's imported
 function getAuditTooltip(status: AuditStatus): string | undefined {
   const today = new Date();
   const anchorDate = status.actualDate ?? status.expectedDate;
-  const diffDays = Math.ceil((new Date(anchorDate).getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.ceil(
+    (new Date(anchorDate).getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
 
   if (status.status === "pending" || status.status === "scheduled") {
     return `T-${Math.abs(diffDays)} days`;
@@ -23,13 +25,16 @@ function getAuditTooltip(status: AuditStatus): string | undefined {
   return undefined;
 }
 
-
 export default function AccountDetail() {
   const { id: accountId } = useParams();
   const navigate = useNavigate();
 
   const { data: account, isLoading, error } = useAccount(accountId);
-  const { auditStatus, isLoading: auditLoading, isError: auditError } = useAuditStatus(accountId);
+  const {
+    auditStatus,
+    isLoading: auditLoading,
+    isError: auditError,
+  } = useAuditStatus(accountId);
 
   if (isLoading || auditLoading) {
     return (
@@ -55,10 +60,9 @@ export default function AccountDetail() {
     );
   }
 
-
-  const latestAuditStatus = [...auditStatus]
-  .sort((a, b) => b.expectedDate.getTime() - a.expectedDate.getTime())[0];
-
+  const latestAuditStatus = [...auditStatus].sort(
+    (a, b) => b.expectedDate.getTime() - a.expectedDate.getTime(),
+  )[0];
 
   return (
     <div className="h-screen overflow-y-auto p-4 dark:bg-gray-900 dark:text-white">
@@ -73,26 +77,25 @@ export default function AccountDetail() {
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold">Account: {account.name}</h1>
           {latestAuditStatus && (
-  <Tooltip content={getAuditTooltip(latestAuditStatus)}>
-    <Badge
-      color={
-        latestAuditStatus.status === "completed"
-          ? "success"
-          : latestAuditStatus.status === "pending"
-          ? "warning"
-          : latestAuditStatus.status === "scheduled"
-          ? "info"
-          : latestAuditStatus.status === "canceled"
-          ? "gray"
-          : "failure" // missed
-      }
-      className="text-xs px-2 py-1 capitalize cursor-help"
-    >
-      {latestAuditStatus.status}
-    </Badge>
-  </Tooltip>
-)}
-
+            <Tooltip content={getAuditTooltip(latestAuditStatus)}>
+              <Badge
+                color={
+                  latestAuditStatus.status === "completed"
+                    ? "success"
+                    : latestAuditStatus.status === "pending"
+                      ? "warning"
+                      : latestAuditStatus.status === "scheduled"
+                        ? "info"
+                        : latestAuditStatus.status === "canceled"
+                          ? "gray"
+                          : "failure" // missed
+                }
+                className="cursor-help px-2 py-1 text-xs capitalize"
+              >
+                {latestAuditStatus.status}
+              </Badge>
+            </Tooltip>
+          )}
         </div>
         <button
           onClick={() => navigate(`/accounts/${accountId}/edit`)}
