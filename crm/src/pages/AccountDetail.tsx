@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAccount } from "../api/useAccounts";
 import { useAuditStatus } from "../api/useAuditStatus";
-import type { AuditStatus } from "../api/useAuditStatus"; // ✅ Add this line
+import { useAccountAudits } from "../api/useAccountAudits";
+import type { AuditStatus } from "../api/useAuditStatus";
 import ContactsCard from "../components/contacts/ContactsCard";
 import AddressCard from "../components/shared/AddressCard";
-import { Badge } from "flowbite-react";
-import { Tooltip } from "flowbite-react"; // make sure it's imported
+import FloorMatrix from "../components/audits/FloorMatrix";
+import { Badge, Tooltip } from "flowbite-react";
 
 function getAuditTooltip(status: AuditStatus): string | undefined {
   const today = new Date();
@@ -32,11 +33,18 @@ export default function AccountDetail() {
   const { data: account, isLoading, error } = useAccount(accountId);
   const {
     auditStatus,
-    isLoading: auditLoading,
-    isError: auditError,
+    isLoading: auditStatusLoading,
+    isError: auditStatusError,
   } = useAuditStatus(accountId);
 
-  if (isLoading || auditLoading) {
+  // Fetch audits with floor visit data
+  const {
+    data: auditData,
+    isLoading: auditDataLoading,
+    isError: auditDataError,
+  } = useAccountAudits(accountId, account);
+
+  if (isLoading || auditStatusLoading || auditDataLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-white"></div>
@@ -52,17 +60,19 @@ export default function AccountDetail() {
     );
   }
 
-  if (auditError) {
+  if (auditStatusError || auditDataError) {
     return (
       <div className="p-4 text-red-500">
-        <strong>Error:</strong> Could not fetch audit status.
+        <strong>Error:</strong> {auditStatusError ? "Could not fetch audit status." : "Could not fetch audit data."}
       </div>
     );
   }
 
-  const latestAuditStatus = [...auditStatus].sort(
-    (a, b) => b.expectedDate.getTime() - a.expectedDate.getTime(),
-  )[0];
+  const latestAuditStatus = auditStatus.length > 0
+    ? [...auditStatus].sort(
+        (a, b) => b.expectedDate.getTime() - a.expectedDate.getTime(),
+      )[0]
+    : null;
 
   return (
     <div className="h-screen overflow-y-auto p-4 dark:bg-gray-900 dark:text-white">
@@ -121,6 +131,30 @@ export default function AccountDetail() {
           </p>
         )}
       </div>
+
+      {/* Floor Matrix Card */}
+      {auditData?.floorMatrix && (
+        <div className="mb-6">
+          <FloorMatrix 
+            data={auditData.floorMatrix} 
+            title={`Floor Visit History (${account.floors_min || 1}-${account.floors_max || 1})`} 
+            className="w-full"
+          />
+        </div>
+      )}
+      {!auditData?.floorMatrix && account.floors_min && account.floors_max && (
+        <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Floor Visit History
+          </h5>
+          <p className="text-gray-500 dark:text-gray-400">
+            {auditData?.audits?.length ? 
+              "Floor matrix could not be generated. Check floor configuration." : 
+              "No audit data available for this account yet."
+            }
+          </p>
+        </div>
+      )}
 
       {Array.isArray(account.expand?.address) &&
         account.expand.address.length > 0 && (

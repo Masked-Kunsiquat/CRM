@@ -1,6 +1,7 @@
-// src/components/audits/FloorMatrix.tsx
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { Card } from "flowbite-react";
+import ReactApexChart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
 
 export type FloorMatrixData = Record<
   number,
@@ -14,19 +15,16 @@ interface FloorMatrixProps {
 }
 
 /**
- * Renders a color-coded matrix of floor visits over time.
- * - Y-axis shows floors (from highest to lowest)
- * - X-axis shows dates in MM-YYYY format
- * - Colors indicate status: visited, skipped, or excluded
- *
+ * Renders a color-coded matrix of floor visits over time using ApexCharts.
+ * 
  * @param {FloorMatrixProps} props - Component props
  * @returns {JSX.Element} A visual heatmap of floor visits
  */
-const FloorMatrix = ({
+const FloorMatrix: React.FC<FloorMatrixProps> = ({
   data,
   title = "Floor Visit Matrix",
   className = "",
-}: FloorMatrixProps) => {
+}) => {
   // Extract and sort floors (Y-axis)
   const floors = useMemo(() => {
     return Object.keys(data)
@@ -46,19 +44,141 @@ const FloorMatrix = ({
     });
   }, [data, floors]);
 
-  // Get color class based on status
-  const getStatusColor = (status: "visited" | "skipped" | "excluded") => {
-    switch (status) {
-      case "visited":
-        return "bg-green-500";
-      case "skipped":
-        return "bg-yellow-300";
-      case "excluded":
-        return "bg-gray-300";
-      default:
-        return "bg-gray-100";
+  // Convert FloorMatrixData to ApexCharts series format
+  const chartData = useMemo(() => {
+    return floors.map((floor) => ({
+      name: `Floor ${floor}`,
+      data: dates.map(date => {
+        const status = data[floor][date];
+        switch (status) {
+          case "visited": return 3; // High
+          case "skipped": return 2; // Medium
+          case "excluded": return 1; // Low
+          default: return 0; // No data
+        }
+      })
+    }));
+  }, [data, floors, dates]);
+
+  // ApexCharts configuration
+  const chartOptions: ApexOptions = useMemo(() => ({
+    chart: {
+      type: 'heatmap',
+      height: `${Math.max(350, floors.length * 40)}px`, // Dynamic height based on number of floors
+      width: '100%', // Full width to ensure labels are visible
+      animations: {
+        enabled: false
+      }
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'right',
+      fontSize: '0.75rem',
+    },
+    plotOptions: {
+      heatmap: {
+        enableShades: false,
+        radius: 0,
+        useFillColorAsStroke: false,
+        distributed: true,
+        columnWidth: '100%', // Ensure full width usage
+        rowHeight: '100%', // Ensure full height usage
+        reverseNegativeShade: false,
+        colorScale: {
+          ranges: [
+            {
+              from: 0,
+              to: 0,
+              color: '#E0E0E0', // Neutral gray for no data
+              name: 'Unknown'
+            },
+            {
+              from: 1,
+              to: 1,
+              color: '#1D4ED8', // Blue-700 for excluded
+              name: 'Excluded'
+            },
+            {
+              from: 2,
+              to: 2,
+              color: '#CA8A04', // Amber-600 for skipped
+              name: 'Skipped'
+            },
+            {
+              from: 3,
+              to: 3,
+              color: '#047857', // Emerald-600 for visited
+              name: 'Visited'
+            }
+          ]
+        }
+      }
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#000'],
+        fontSize: '0.6rem'
+      },
+      formatter: (val) => {
+        switch(val) {
+          case 3: return 'V';
+          case 2: return 'S';
+          case 1: return 'E';
+          default: return '';
+        }
+      }
+    },
+    xaxis: {
+      type: 'category',
+      categories: dates,
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+        style: {
+          fontSize: '0.7rem',
+          colors: '#6B7280' // text-gray-500
+        }
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          fontSize: '0.7rem',
+          colors: '#6B7280', // text-gray-500
+          fontWeight: 'bold'
+        },
+        offsetX: -20 // Push labels slightly to the left
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+    grid: {
+      show: false,
+      padding: {
+        left: 0,
+        right: 0
+      }
+    },
+    title: {
+      text: title,
+      style: {
+        fontSize: '1.25rem',
+        fontWeight: 'bold',
+        color: '#111827' // text-gray-900
+      }
     }
-  };
+  }), [title, dates, floors]);
 
   // Return empty message if no data
   if (floors.length === 0 || dates.length === 0) {
@@ -76,72 +196,13 @@ const FloorMatrix = ({
 
   return (
     <Card className={`${className}`}>
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {title}
-      </h5>
-
       <div className="overflow-x-auto">
-        <div className="inline-block min-w-full align-middle">
-          <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400"
-                  >
-                    Floor
-                  </th>
-                  {dates.map((date) => (
-                    <th
-                      key={date}
-                      scope="col"
-                      className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500 dark:text-gray-400"
-                    >
-                      {date}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {floors.map((floor) => (
-                  <tr key={floor}>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
-                      {floor}
-                    </td>
-                    {dates.map((date) => {
-                      const status = data[floor][date];
-                      return (
-                        <td
-                          key={`${floor}-${date}`}
-                          className={`px-6 py-4 text-center ${getStatusColor(status)}`}
-                          title={`Floor ${floor}, ${date}: ${status}`}
-                        >
-                          <div className="sr-only">{status}</div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-4 flex items-center justify-end gap-4">
-        <div className="flex items-center">
-          <div className="mr-2 h-4 w-4 bg-green-500"></div>
-          <span className="text-xs">Visited</span>
-        </div>
-        <div className="flex items-center">
-          <div className="mr-2 h-4 w-4 bg-yellow-300"></div>
-          <span className="text-xs">Skipped</span>
-        </div>
-        <div className="flex items-center">
-          <div className="mr-2 h-4 w-4 bg-gray-300"></div>
-          <span className="text-xs">Excluded</span>
-        </div>
+        <ReactApexChart 
+          options={chartOptions} 
+          series={chartData} 
+          type="heatmap" 
+          height={Math.max(350, floors.length * 40)} 
+        />
       </div>
     </Card>
   );
