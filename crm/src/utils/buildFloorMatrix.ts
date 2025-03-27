@@ -1,22 +1,45 @@
 // src/utils/buildFloorMatrix.ts
 
+/**
+ * Represents an account with floor-related configuration
+ */
 type Account = {
+  /** Minimum floor number in the building */
   floors_min: number;
+  /** Maximum floor number in the building */
   floors_max: number;
+  /** List of floors excluded from regular auditing */
   excluded_floors: number[];
 };
 
+/**
+ * Represents a single audit record
+ */
 type Audit = {
-  date: string; // 'YYYY-MM-DD'
+  /** Date of the audit in 'YYYY-MM-DD' format */
+  date: string;
+  /** List of floor numbers that were visited during this audit */
   visited_floors: number[];
 };
 
+/**
+ * Represents the floor visitation matrix
+ * The outer key is the floor number
+ * The inner key is the month-year in 'MM-YYYY' format
+ * The value indicates the status of that floor for that month
+ */
 export type FloorMatrix = Record<
   number,
   Record<string, "visited" | "skipped" | "excluded">
 >;
 
-// Helper function to format date from 'YYYY-MM-DD' to 'MM-YYYY'
+/**
+ * Formats a date from 'YYYY-MM-DD' to 'MM-YYYY' format
+ * 
+ * @param dateStr - The date string in 'YYYY-MM-DD' format
+ * @returns The formatted date in 'MM-YYYY' format
+ * @throws Error if the date string is not in the expected format
+ */
 const formatDateToMonthYear = (dateStr: string): string => {
   const dateParts = dateStr.split("-");
   if (dateParts.length !== 3) {
@@ -26,6 +49,31 @@ const formatDateToMonthYear = (dateStr: string): string => {
   return `${month}-${year}`;
 };
 
+/**
+ * Builds a matrix showing the status of each floor for each month based on account configuration and audit history
+ * 
+ * The matrix provides a comprehensive view of floor visitation patterns over time, with each floor
+ * marked as either 'visited', 'skipped', or 'excluded' for each month.
+ * 
+ * @param account - The account object containing floor configuration
+ * @param audits - Array of audit records showing which floors were visited on which dates
+ * @returns A floor matrix mapping each floor to its status for each month
+ * @throws Error if account or audit data is invalid
+ * 
+ * @example
+ * const account = {
+ *   floors_min: 1,
+ *   floors_max: 10,
+ *   excluded_floors: [13]
+ * };
+ * 
+ * const audits = [
+ *   { date: '2023-01-15', visited_floors: [1, 2, 3] },
+ *   { date: '2023-02-10', visited_floors: [4, 5, 6] }
+ * ];
+ * 
+ * const matrix = buildFloorMatrix(account, audits);
+ */
 export function buildFloorMatrix(
   account: Account,
   audits: Audit[],
