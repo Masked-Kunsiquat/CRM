@@ -35,14 +35,14 @@ function getLastCompletedAuditDate(audits: Audit[]): Date | null {
   const completed = audits.filter((a) => a.status === "completed");
   if (completed.length === 0) return null;
   return new Date(
-    Math.max(...completed.map((audit) => new Date(audit.date).getTime()))
+    Math.max(...completed.map((audit) => new Date(audit.date).getTime())),
   );
 }
 
 function generateExpectedDates(
   startDate: Date,
   frequency: Frequency,
-  endDate: Date
+  endDate: Date,
 ): Date[] {
   const dates: Date[] = [];
   let current = new Date(startDate);
@@ -67,17 +67,12 @@ function generateExpectedDates(
         current.setFullYear(current.getFullYear() + 3);
         break;
     }
-
   }
 
   return dates;
 }
 
-
-function getAuditStatus(
-  expectedDates: Date[],
-  audits: Audit[]
-): AuditStatus[] {
+function getAuditStatus(expectedDates: Date[], audits: Audit[]): AuditStatus[] {
   return expectedDates.map((expectedDate) => {
     const match = audits.find((audit) => {
       const auditDate = new Date(audit.date);
@@ -103,7 +98,7 @@ function getAuditStatus(
 }
 
 export const useAuditStatus = (
-  accountId?: string
+  accountId?: string,
 ): {
   auditStatus: AuditStatus[];
   isLoading: boolean;
@@ -124,8 +119,12 @@ export const useAuditStatus = (
       if (audits.length === 0) return [];
 
       const startDate = getLastCompletedAuditDate(audits) || new Date();
-      const expected = generateExpectedDates(startDate, account.frequency, new Date());
-      
+      const expected = generateExpectedDates(
+        startDate,
+        account.frequency,
+        new Date(),
+      );
+
       return getAuditStatus(expected, audits);
     },
     enabled: !!accountId && !!account,
@@ -138,4 +137,4 @@ export const useAuditStatus = (
   };
 };
 
-export type {AuditStatus};
+export type { AuditStatus };

@@ -1,5 +1,5 @@
 // crm/src/components/AuditStatusComponent.tsx
-import { useAuditStatus } from '../api/useAuditStatus';
+import { useAuditStatus } from "../api/useAuditStatus";
 
 const AuditStatusComponent = ({ accountId }: { accountId: string }) => {
   const { auditStatus, isLoading, isError } = useAuditStatus(accountId);
@@ -23,7 +23,9 @@ const AuditStatusComponent = ({ accountId }: { accountId: string }) => {
             <tr key={index}>
               <td>{item.expectedDate.toDateString()}</td>
               <td>{item.status}</td>
-              <td>{item.actualDate ? item.actualDate.toDateString() : "N/A"}</td>
+              <td>
+                {item.actualDate ? item.actualDate.toDateString() : "N/A"}
+              </td>
             </tr>
           ))}
         </tbody>
