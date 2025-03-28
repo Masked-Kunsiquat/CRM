@@ -8,6 +8,16 @@ misc_work/pocketbase_audits.json
 misc_work/pocketbase_audits_with_ids.json
 misc_work/pocketbase_audits2.json
 
+# Python related
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+misc_work/generator/venv/
+misc_work/generator/**pycache**/
+.env
+.python-version
+
 # Logs
 logs
 *.log
