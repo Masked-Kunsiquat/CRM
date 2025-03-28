@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "accounts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "description": "PocketBase Account ID" },
+            "audits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": { "type": "string", "format": "date", "description": "Audit date" },
+                  "visited_floors": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["scheduled", "pending", "completed", "canceled"]
+                  },
+                  "note": { "type": "string" },
+                  "score": { "type": ["integer", "null"] }
+                },
+                "required": ["date", "visited_floors"]
+              }
+            }
+          },
+          "required": ["id", "audits"]
+        }
+      }
+    },
+    "required": ["accounts"]
+  }
+  

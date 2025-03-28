@@ -1,0 +1,78 @@
+============================================================
+AUDIT RECORDS REPORT
+============================================================
+
+Total Accounts: 7
+Total Audits: 148
+Audits Missing Scores: 148 (100.0% of all audits)
+
+AUDITS BY YEAR
+------------------------------------------------------------
+2022: 33 audits (22.3%)
+2023: 38 audits (25.7%)
+2024: 61 audits (41.2%)
+2025: 16 audits (10.8%)
+
+TOP 10 MOST FREQUENTLY VISITED FLOORS
+------------------------------------------------------------
+Floor 15: 61 visits (41.2%)
+Floor 18: 59 visits (39.9%)
+Floor 14: 55 visits (37.2%)
+Floor 19: 44 visits (29.7%)
+Floor 25: 42 visits (28.4%)
+Floor 11: 42 visits (28.4%)
+Floor 9: 41 visits (27.7%)
+Floor 17: 39 visits (26.4%)
+Floor 5: 39 visits (26.4%)
+Floor 7: 38 visits (25.7%)
+
+ACCOUNT SUMMARY
+------------------------------------------------------------
+Account: ##REDACTED##
+  Audit Count: 27
+  First Audit: 2022-02-01
+  Last Audit: 2024-12-01
+  Missing Scores: 27 (100.0%)
+  Avg. Days Between Audits: 39.8
+
+Account: ##REDACTED##
+  Audit Count: 31
+  First Audit: 2022-01-31
+  Last Audit: 2025-03-01
+  Missing Scores: 31 (100.0%)
+  Avg. Days Between Audits: 37.5
+
+Account: ##REDACTED##
+  Audit Count: 23
+  First Audit: 2022-04-15
+  Last Audit: 2025-03-01
+  Missing Scores: 23 (100.0%)
+  Avg. Days Between Audits: 47.8
+
+Account: ##REDACTED##
+  Audit Count: 30
+  First Audit: 2022-04-01
+  Last Audit: 2025-03-01
+  Missing Scores: 30 (100.0%)
+  Avg. Days Between Audits: 36.7
+
+Account: ##REDACTED##
+  Audit Count: 5
+  First Audit: 2024-04-05
+  Last Audit: 2025-02-01
+  Missing Scores: 5 (100.0%)
+  Avg. Days Between Audits: 75.5
+
+Account: ##REDACTED##
+  Audit Count: 15
+  First Audit: 2023-02-01
+  Last Audit: 2025-03-01
+  Missing Scores: 15 (100.0%)
+  Avg. Days Between Audits: 54.2
+
+Account: ##REDACTED##
+  Audit Count: 17
+  First Audit: 2022-08-19
+  Last Audit: 2025-03-01
+  Missing Scores: 17 (100.0%)
+  Avg. Days Between Audits: 57.8
