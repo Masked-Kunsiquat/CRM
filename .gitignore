@@ -2,6 +2,12 @@
 pb_data/
 .DS_Store
 
+# Bulk Imports
+misc_work/audits.yml
+misc_work/pocketbase_audits.json
+misc_work/pocketbase_audits_with_ids.json
+misc_work/pocketbase_audits2.json
+
 # Logs
 logs
 *.log
