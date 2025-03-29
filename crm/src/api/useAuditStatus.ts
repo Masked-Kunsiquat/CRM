@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./useAccounts";
-import getPocketBase from "../api/pocketbase";
+import getPocketBase from "../shared/api/pocketbase";
 
 const pb = getPocketBase();
 

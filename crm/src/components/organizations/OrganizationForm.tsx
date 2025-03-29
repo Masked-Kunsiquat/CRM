@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button, Label, TextInput, Textarea, Checkbox } from "flowbite-react";
 import { Organization, CreateOrganizationData, UpdateOrganizationData } from "../../api/useOrganizations";
-import getPocketBase from "../../api/pocketbase";
+import getPocketBase from "../../shared/api/pocketbase";
 
 const pb = getPocketBase();
 

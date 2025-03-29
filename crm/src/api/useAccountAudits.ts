@@ -1,6 +1,6 @@
 // src/api/useAccountAudits.ts
 import { useQuery } from "@tanstack/react-query";
-import getPocketBase from "./pocketbase";
+import getPocketBase from "../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
 import { buildFloorMatrix } from "../utils/buildFloorMatrix";
 
