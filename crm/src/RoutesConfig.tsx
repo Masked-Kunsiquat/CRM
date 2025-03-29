@@ -15,7 +15,7 @@ export function RoutesConfig() {
     <NotificationProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
-        
+
         <Route
           path="/dashboard"
           element={
@@ -24,7 +24,7 @@ export function RoutesConfig() {
             </Layout>
           }
         />
-        
+
         {/* Organization Routes */}
         <Route
           path="/organizations"
@@ -58,7 +58,7 @@ export function RoutesConfig() {
             </Layout>
           }
         />
-        
+
         {/* Account Routes */}
         <Route
           path="/accounts/:id"
@@ -68,7 +68,7 @@ export function RoutesConfig() {
             </Layout>
           }
         />
-        
+
         {/* Subaccount Routes */}
         <Route
           path="/subaccounts/:id"
@@ -78,7 +78,7 @@ export function RoutesConfig() {
             </Layout>
           }
         />
-        
+
         {/* Default redirect */}
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>

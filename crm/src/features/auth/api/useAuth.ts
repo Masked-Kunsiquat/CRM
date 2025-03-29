@@ -5,7 +5,6 @@ import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordAuthResponse } from "pocketbase";
 import { User, LoginCredentials, AuthHookReturn } from "../types";
 
-
 const pb = getPocketBase();
 
 /**

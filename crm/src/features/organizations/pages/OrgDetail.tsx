@@ -40,7 +40,7 @@ function OrgDetail() {
     isLoading: accLoading,
     error: accError,
   } = useAccounts(organization?.id);
-  
+
   const deleteMutation = useDeleteOrganization();
 
   const handleEdit = () => {
@@ -48,14 +48,14 @@ function OrgDetail() {
       navigate(`/organizations/${organization.id}/edit`);
     }
   };
-  
+
   const confirmDelete = () => {
     setShowDeleteModal(true);
   };
-  
+
   const handleDelete = async () => {
     if (!organization) return;
-    
+
     try {
       setDeleteError(null);
       await deleteMutation.mutateAsync(organization.id);
@@ -63,7 +63,9 @@ function OrgDetail() {
       navigate("/organizations");
     } catch (err: any) {
       console.error("Error deleting organization:", err);
-      setDeleteError(err.message || "Failed to delete organization. Please try again.");
+      setDeleteError(
+        err.message || "Failed to delete organization. Please try again.",
+      );
     }
   };
 
@@ -77,14 +79,14 @@ function OrgDetail() {
 
   return (
     <div className="min-h-screen p-4 dark:bg-gray-900 dark:text-white">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => navigate(-1)}
           className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Back
         </button>
-        
+
         <div className="flex space-x-2">
           <Button color="light" onClick={handleEdit}>
             <HiOutlinePencil className="mr-2 h-5 w-5" />
@@ -142,32 +144,30 @@ function OrgDetail() {
           </div>
         )}
       </div>
-      
+
       {/* Delete Confirmation Modal */}
       <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
         <Modal.Header>Confirm Deletion</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete <strong>{organization.name}</strong>? This action cannot be undone.
+              Are you sure you want to delete{" "}
+              <strong>{organization.name}</strong>? This action cannot be
+              undone.
             </p>
-            {deleteError && (
-              <Alert color="failure">
-                {deleteError}
-              </Alert>
-            )}
+            {deleteError && <Alert color="failure">{deleteError}</Alert>}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button color="gray" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
-          <Button 
-            color="failure" 
+          <Button
+            color="failure"
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete Organization'}
+            {deleteMutation.isPending ? "Deleting..." : "Delete Organization"}
           </Button>
         </Modal.Footer>
       </Modal>

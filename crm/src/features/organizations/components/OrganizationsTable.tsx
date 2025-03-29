@@ -39,9 +39,15 @@ export const OrganizationsTable = ({
         <Table.Body>
           {organizations.length > 0 ? (
             organizations.map((org) => (
-              <Table.Row key={org.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Row
+                key={org.id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  <Link to={`/organizations/${org.id}`} className="hover:underline text-blue-600">
+                  <Link
+                    to={`/organizations/${org.id}`}
+                    className="text-blue-600 hover:underline"
+                  >
                     {org.name}
                   </Link>
                 </Table.Cell>
@@ -52,7 +58,7 @@ export const OrganizationsTable = ({
                     <Badge color="gray">Inactive</Badge>
                   )}
                 </Table.Cell>
-                <Table.Cell>{org.city || 'N/A'}</Table.Cell>
+                <Table.Cell>{org.city || "N/A"}</Table.Cell>
                 <Table.Cell>{formatDate(org.created)}</Table.Cell>
                 <Table.Cell>{formatDate(org.updated)}</Table.Cell>
                 <Table.Cell>
@@ -62,20 +68,20 @@ export const OrganizationsTable = ({
                         <HiEye className="h-4 w-4" />
                       </Button>
                     </Link>
-                    
+
                     {onEdit && (
-                      <Button 
-                        size="xs" 
+                      <Button
+                        size="xs"
                         color="info"
                         onClick={() => onEdit(org.id)}
                       >
                         <HiPencil className="h-4 w-4" />
                       </Button>
                     )}
-                    
+
                     {onDelete && (
-                      <Button 
-                        size="xs" 
+                      <Button
+                        size="xs"
                         color="failure"
                         onClick={() => onDelete(org.id)}
                       >
@@ -88,7 +94,7 @@ export const OrganizationsTable = ({
             ))
           ) : (
             <Table.Row>
-              <Table.Cell colSpan={6} className="text-center py-4">
+              <Table.Cell colSpan={6} className="py-4 text-center">
                 No organizations found
               </Table.Cell>
             </Table.Row>

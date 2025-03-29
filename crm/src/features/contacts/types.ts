@@ -37,13 +37,13 @@ export type FetchContactsFn = (
  * Function signature for retrieving contacts data outside of React Query
  */
 export type GetContactsDataFn = (
-  options: UseContactsOptions
+  options: UseContactsOptions,
 ) => Promise<RecordModel[]>;
 
 export type ContactsCardProps = {
-    context: "organization" | "account" | "subaccount";
-    organizationId: string;
-    accountId?: string;
-    subaccountId?: string;
-    isHomeCompany?: boolean;
-  };
+  context: "organization" | "account" | "subaccount";
+  organizationId: string;
+  accountId?: string;
+  subaccountId?: string;
+  isHomeCompany?: boolean;
+};

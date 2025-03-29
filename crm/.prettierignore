@@ -7,3 +7,5 @@ build
 backend/pb_data
 backend/pb_migrations
 backend/pocketbase
+
+misc_work/*

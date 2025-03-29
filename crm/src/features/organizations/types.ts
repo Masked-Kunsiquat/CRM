@@ -10,7 +10,7 @@ import { RecordModel } from "pocketbase";
 /**
  * Organization interface representing an organization entity in the system.
  * Extends the PocketBase RecordModel to include database record properties.
- * 
+ *
  * @interface Organization
  * @extends {RecordModel}
  * @property {string} name - The name of the organization
@@ -34,7 +34,7 @@ export interface Organization extends RecordModel {
 /**
  * Data type for creating a new organization.
  * Contains all required fields and optional fields needed to create an organization.
- * 
+ *
  * @typedef {Object} CreateOrganizationData
  * @property {string} name - The name of the new organization (required)
  * @property {string} [description] - Optional description of the organization
@@ -55,7 +55,7 @@ export type CreateOrganizationData = {
 /**
  * Data type for updating an existing organization.
  * All fields are optional since updates may only modify a subset of fields.
- * 
+ *
  * @typedef {Partial<CreateOrganizationData>} UpdateOrganizationData
  */
 export type UpdateOrganizationData = Partial<CreateOrganizationData>;
@@ -67,7 +67,7 @@ export type UpdateOrganizationData = Partial<CreateOrganizationData>;
 /**
  * Response type for organization list API endpoint.
  * Contains the list of organizations and pagination information.
- * 
+ *
  * @typedef {Object} OrganizationListResponse
  * @property {Organization[]} organizations - Array of organization objects
  * @property {number} totalPages - Total number of pages available for pagination
@@ -83,7 +83,7 @@ export type OrganizationListResponse = {
 
 /**
  * Props for the OrganizationForm component.
- * 
+ *
  * @interface OrganizationFormProps
  * @property {Organization} [organization] - Optional existing organization data for edit mode
  * @property {Function} onSubmit - Callback function triggered when form is submitted
@@ -101,7 +101,7 @@ export interface OrganizationFormProps {
 /**
  * Props for the OrganizationsTable component.
  * Defines the configuration for displaying a table of organizations.
- * 
+ *
  * @interface OrganizationsTableProps
  * @property {RecordModel[]} organizations - Array of organization records to display
  * @property {Function} [onEdit] - Optional callback function when edit action is triggered
@@ -118,7 +118,7 @@ export interface OrganizationsTableProps {
 /**
  * Props for the OrgDetailCard component.
  * Used for displaying organization details in a card format.
- * 
+ *
  * @interface OrgDetailCardProps
  * @property {string} title - Title of the card
  * @property {React.ReactNode} children - Child elements to render within the card
@@ -131,7 +131,7 @@ export interface OrgDetailCardProps {
 /**
  * Props for the CompanyLogo component.
  * Used for displaying and managing organization logos.
- * 
+ *
  * @interface CompanyLogoProps
  * @property {string | null} logo - The logo file ID or URL, or null if no logo exists
  * @property {string} orgId - ID of the organization the logo belongs to

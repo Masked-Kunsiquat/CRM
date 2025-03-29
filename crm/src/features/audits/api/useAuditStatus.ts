@@ -1,11 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "../../accounts/api/useAccounts";
 import getPocketBase from "../../../shared/api/pocketbase";
-import { 
-  Frequency, 
-  Audit, 
-  AuditStatus 
-} from '../types';
+import { Frequency, Audit, AuditStatus } from "../types";
 
 const pb = getPocketBase();
 
@@ -31,10 +27,10 @@ function getLastAuditDate(audits: Audit[]): Date | null {
       Math.max(...completed.map((audit) => new Date(audit.date).getTime())),
     );
   }
-  
+
   // If no completed audits, fall back to the most recent audit of any status
   if (audits.length === 0) return null;
-  
+
   return new Date(
     Math.max(...audits.map((audit) => new Date(audit.date).getTime())),
   );
