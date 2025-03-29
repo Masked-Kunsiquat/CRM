@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import getPocketBase from "../api/pocketbase";
+import getPocketBase from "../../../api/pocketbase";
 import { RecordAuthResponse, RecordModel } from "pocketbase";
 
 const pb = getPocketBase();

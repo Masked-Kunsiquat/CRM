@@ -10,7 +10,7 @@
 
 import { useState, FormEvent } from "react";
 import { useAuth } from "../api/useAuth";
-import { LoginForm } from "../components/auth/LoginForm";
+import { LoginForm } from "../components/LoginForm";
 
 export function Login() {
   const [email, setEmail] = useState("");

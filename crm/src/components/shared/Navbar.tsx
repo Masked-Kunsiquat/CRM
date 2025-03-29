@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Navbar } from "flowbite-react";
-import { useAuth } from "../../api/useAuth";
+import { useAuth } from "../../features/auth/api/useAuth";
 import { DarkThemeToggle } from "flowbite-react";
 
 /**
