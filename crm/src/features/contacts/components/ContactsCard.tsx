@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useContacts } from "../../api/useContacts";
-import OrgDetailCard from "../../features/organizations/components/OrgDetailCard";
-import DataTable from "../shared/DataTable";
+import { useContacts } from "../api/useContacts";
+import OrgDetailCard from "../../organizations/components/OrgDetailCard";
+import DataTable from "../../../shared/components/DataTable";
 
 type ContactsCardProps = {
   context: "organization" | "account" | "subaccount";

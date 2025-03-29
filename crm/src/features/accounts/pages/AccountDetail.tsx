@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAccount } from "../api/useAccounts";
-import { useAuditStatus } from "../api/useAuditStatus";
-import { useAccountAudits } from "../api/useAccountAudits";
-import type { AuditStatus } from "../api/useAuditStatus";
-import ContactsCard from "../components/contacts/ContactsCard";
-import AddressCard from "../components/shared/AddressCard";
-import FloorMatrix from "../components/audits/FloorMatrix/index";
+import { useAuditStatus } from "../../audits/api/useAuditStatus";
+import { useAccountAudits } from "../../audits/api/useAccountAudits";
+import type { AuditStatus } from "../../audits/api/useAuditStatus";
+import ContactsCard from "../../contacts/components/ContactsCard";
+import AddressCard from "../../../shared/components/AddressCard";
+import FloorMatrix from "../components/FloorMatrix/index";
 import { Badge, Tooltip } from "flowbite-react";
 
 function getAuditTooltip(status: AuditStatus): string | undefined {

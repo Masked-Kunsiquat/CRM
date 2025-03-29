@@ -15,12 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Alert } from "flowbite-react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import { useOrgDetail } from "../api/useOrgDetail";
-import { useAccounts } from "../../../api/useAccounts";
+import { useAccounts } from "../../accounts/api/useAccounts";
 import { useDeleteOrganization } from "../api/useOrganizations";
 import OrgDetailCard from "../components/OrgDetailCard";
-import ContactsCard from "../../../components/contacts/ContactsCard";
-import AccountCard from "../../../components/accounts/AccountCard";
-import SubaccountsCard from "../../../components/subaccounts/SubaccountsCard";
+import ContactsCard from "../../contacts/components/ContactsCard";
+import AccountCard from "../../accounts/components/AccountCard";
+import SubaccountsCard from "../../subaccounts/components/SubaccountsCard";
 import { CompanyLogo } from "../components/CompanyLogo";
 import { RecordModel } from "pocketbase";
 

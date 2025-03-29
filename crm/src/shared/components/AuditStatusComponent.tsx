@@ -1,5 +1,5 @@
 // crm/src/components/AuditStatusComponent.tsx
-import { useAuditStatus } from "../api/useAuditStatus";
+import { useAuditStatus } from "../../features/audits/api/useAuditStatus";
 
 const AuditStatusComponent = ({ accountId }: { accountId: string }) => {
   const { auditStatus, isLoading, isError } = useAuditStatus(accountId);

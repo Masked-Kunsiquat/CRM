@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ClientResponseError } from 'pocketbase';
-import { useNotification } from '../components/shared/NotificationContext';
+import { useNotification } from '../components/NotificationContext';
 
 /**
  * Custom hook for handling API errors consistently across the application

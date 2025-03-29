@@ -11,7 +11,7 @@
 
 import { useParams } from "react-router-dom";
 import { useSubaccount } from "../api/useSubaccounts";
-import ContactsCard from "../components/contacts/ContactsCard";
+import ContactsCard from "../../contacts/components/ContactsCard";
 
 export default function SubAccountDetail() {
   const { id: subaccountId } = useParams();

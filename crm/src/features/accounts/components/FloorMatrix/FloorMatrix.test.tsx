@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import FloorMatrix from "../FloorMatrix/index";
-import { FloorMatrixData } from "../FloorMatrix/types";
+import FloorMatrix from "./index";
+import { FloorMatrixData } from "./types";
 
 
 // Mock the Card component from flowbite-react since we're only testing our component logic

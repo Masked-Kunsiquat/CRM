@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { RecordModel } from "pocketbase";
-import OrgDetailCard from "../../features/organizations/components/OrgDetailCard";
-import DataTable from "../shared/DataTable";
+import OrgDetailCard from "../../organizations/components/OrgDetailCard";
+import DataTable from "../../../shared/components/DataTable";
 
 interface AccountCardProps {
   accounts: RecordModel[];
