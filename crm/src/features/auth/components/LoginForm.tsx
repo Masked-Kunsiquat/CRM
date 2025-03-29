@@ -13,13 +13,13 @@ import { LoginFormProps } from "../types";
  * @param {LoginFormProps} props - Props for managing form state and handlers
  * @returns {JSX.Element} A styled login form
  */
-export const LoginForm = ({ 
-  email, 
-  password, 
-  error, 
-  setEmail, 
-  setPassword, 
-  onSubmit 
+export const LoginForm = ({
+  email,
+  password,
+  error,
+  setEmail,
+  setPassword,
+  onSubmit,
 }: LoginFormProps) => {
   return (
     <form

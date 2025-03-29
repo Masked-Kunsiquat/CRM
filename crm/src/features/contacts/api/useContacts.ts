@@ -1,10 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
-import { 
-  EntityType, 
-  UseContactsOptions 
-} from "../types";
+import { EntityType, UseContactsOptions } from "../types";
 
 const pb = getPocketBase();
 

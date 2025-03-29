@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { FloorMatrixData, Audit, AuditDetail } from '../types.ts';
+import { useMemo } from "react";
+import { FloorMatrixData, Audit, AuditDetail } from "../types.ts";
 
 export const useChartData = (data: FloorMatrixData, audits: Audit[] = []) => {
   // Extract and sort floors (Y-axis)
@@ -25,29 +25,33 @@ export const useChartData = (data: FloorMatrixData, audits: Audit[] = []) => {
     return floors.map((floor) => ({
       // Changed the name to just the number to avoid any prefix issues
       name: `${floor}`,
-      data: dates.map(date => {
+      data: dates.map((date) => {
         const status = data[floor][date];
         switch (status) {
-          case "visited": return 3;
-          case "skipped": return 2;
-          case "excluded": return 1;
-          default: return 0;
+          case "visited":
+            return 3;
+          case "skipped":
+            return 2;
+          case "excluded":
+            return 1;
+          default:
+            return 0;
         }
-      })
+      }),
     }));
   }, [data, floors, dates]);
 
   // Create audit information map
   const auditInfo = useMemo(() => {
     const tooltipMap = new Map<string, AuditDetail[]>();
-    
+
     if (!audits.length) return tooltipMap;
-    
-    audits.forEach(audit => {
+
+    audits.forEach((audit) => {
       const auditDate = new Date(audit.date);
-      const monthYear = `${String(auditDate.getMonth() + 1).padStart(2, '0')}-${auditDate.getFullYear()}`;
-      
-      audit.visited_floors.forEach(floor => {
+      const monthYear = `${String(auditDate.getMonth() + 1).padStart(2, "0")}-${auditDate.getFullYear()}`;
+
+      audit.visited_floors.forEach((floor) => {
         const key = `${monthYear}-${floor}`;
         if (!tooltipMap.has(key)) {
           tooltipMap.set(key, []);
@@ -56,12 +60,12 @@ export const useChartData = (data: FloorMatrixData, audits: Audit[] = []) => {
         if (details) {
           details.push({
             date: auditDate.toLocaleDateString(),
-            score: audit.score
+            score: audit.score,
           });
         }
       });
     });
-    
+
     return tooltipMap;
   }, [audits]);
 
@@ -69,6 +73,6 @@ export const useChartData = (data: FloorMatrixData, audits: Audit[] = []) => {
     floors,
     dates,
     chartData,
-    auditInfo
+    auditInfo,
   };
 };

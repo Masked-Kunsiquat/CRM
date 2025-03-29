@@ -14,16 +14,18 @@ export const OrganizationForm = ({
   organization,
   onSubmit,
   onCancel,
-  isSubmitting
+  isSubmitting,
 }: OrganizationFormProps) => {
-  const [formData, setFormData] = useState<CreateOrganizationData & { active?: boolean, is_home_company?: boolean }>({
+  const [formData, setFormData] = useState<
+    CreateOrganizationData & { active?: boolean; is_home_company?: boolean }
+  >({
     name: "",
     description: "",
     address: "",
     active: true,
-    is_home_company: false
+    is_home_company: false,
   });
-  
+
   // If organization is provided, populate form for editing mode
   useEffect(() => {
     const fetchAddressDetails = async () => {
@@ -34,41 +36,45 @@ export const OrganizationForm = ({
           description: organization.description || "",
           address: "", // Will fill this below
           active: organization.active ?? true,
-          is_home_company: organization.is_home_company ?? false
+          is_home_company: organization.is_home_company ?? false,
         };
-        
+
         // Fetch address details if available
-        if (organization.address && typeof organization.address === 'string') {
+        if (organization.address && typeof organization.address === "string") {
           try {
-            const addressRecord = await pb.collection("address").getOne(organization.address);
+            const addressRecord = await pb
+              .collection("address")
+              .getOne(organization.address);
             // Format address for display in the form
             const addressParts = [
               addressRecord.street,
               addressRecord.city,
               addressRecord.state,
-              addressRecord.zip_code
+              addressRecord.zip_code,
             ].filter(Boolean);
             formValues.address = addressParts.join(", ");
           } catch (error) {
             console.error("Failed to fetch address details", error);
           }
         }
-        
+
         setFormData(formValues);
       }
     };
-    
+
     fetchAddressDetails();
   }, [organization]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
-    setFormData(prev => ({ ...prev, [name]: checked }));
+    setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -93,7 +99,7 @@ export const OrganizationForm = ({
           placeholder="Enter organization name"
         />
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="description" value="Description" />
@@ -107,7 +113,7 @@ export const OrganizationForm = ({
           rows={3}
         />
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="address" value="Address" />
@@ -124,7 +130,7 @@ export const OrganizationForm = ({
           Format: 123 Main St, Chicago, IL, 60601
         </p>
       </div>
-      
+
       <div className="flex items-center gap-2">
         <Checkbox
           id="active"
@@ -132,11 +138,9 @@ export const OrganizationForm = ({
           checked={formData.active}
           onChange={handleCheckboxChange}
         />
-        <Label htmlFor="active">
-          Active Organization
-        </Label>
+        <Label htmlFor="active">Active Organization</Label>
       </div>
-      
+
       <div className="flex items-center gap-2">
         <Checkbox
           id="is_home_company"
@@ -144,22 +148,24 @@ export const OrganizationForm = ({
           checked={formData.is_home_company}
           onChange={handleCheckboxChange}
         />
-        <Label htmlFor="is_home_company">
-          Home Company
-        </Label>
-        <p className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+        <Label htmlFor="is_home_company">Home Company</Label>
+        <p className="ml-2 text-xs text-gray-500 dark:text-gray-400">
           (Internal organization)
         </p>
       </div>
-      
+
       {/* Logo upload could be added here if needed */}
-      
-      <div className="flex gap-2 justify-end mt-4">
+
+      <div className="mt-4 flex justify-end gap-2">
         <Button color="gray" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : isEditMode ? 'Update Organization' : 'Create Organization'}
+          {isSubmitting
+            ? "Saving..."
+            : isEditMode
+              ? "Update Organization"
+              : "Create Organization"}
         </Button>
       </div>
     </form>

@@ -15,7 +15,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, Alert } from "flowbite-react";
 import { HiOutlinePlus } from "react-icons/hi";
-import { useOrganizations, useDeleteOrganization } from "../api/useOrganizations";
+import {
+  useOrganizations,
+  useDeleteOrganization,
+} from "../api/useOrganizations";
 import { OrganizationsTable } from "../components/OrganizationsTable";
 
 function Organizations() {
@@ -24,7 +27,7 @@ function Organizations() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
-  
+
   const navigate = useNavigate();
   const { data, isLoading, isError, error } = useOrganizations(page, perPage);
   const deleteMutation = useDeleteOrganization();
@@ -34,23 +37,23 @@ function Organizations() {
       setPage(newPage);
     }
   };
-  
+
   const handleCreateOrganization = () => {
     navigate("/organizations/create");
   };
-  
+
   const handleEditOrganization = (id: string) => {
     navigate(`/organizations/${id}/edit`);
   };
-  
+
   const confirmDelete = (id: string) => {
     setSelectedOrgId(id);
     setShowDeleteModal(true);
   };
-  
+
   const handleDeleteOrganization = async () => {
     if (!selectedOrgId) return;
-    
+
     try {
       setDeleteError(null);
       await deleteMutation.mutateAsync(selectedOrgId);
@@ -58,7 +61,9 @@ function Organizations() {
       setSelectedOrgId(null);
     } catch (err: any) {
       console.error("Error deleting organization:", err);
-      setDeleteError(err.message || "Failed to delete organization. Please try again.");
+      setDeleteError(
+        err.message || "Failed to delete organization. Please try again.",
+      );
     }
   };
 
@@ -80,25 +85,22 @@ function Organizations() {
 
   return (
     <div className="min-h-screen p-4 dark:bg-gray-900 dark:text-white">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-semibold dark:text-gray-100">
           Organizations
         </h1>
-        <Button 
-          color="blue"
-          onClick={handleCreateOrganization}
-        >
+        <Button color="blue" onClick={handleCreateOrganization}>
           <HiOutlinePlus className="mr-2 h-5 w-5" />
           New Organization
         </Button>
       </div>
-      
-      <OrganizationsTable 
-        organizations={data?.organizations || []} 
+
+      <OrganizationsTable
+        organizations={data?.organizations || []}
         onEdit={handleEditOrganization}
         onDelete={confirmDelete}
       />
-      
+
       <div className="mt-4 flex justify-center">
         <button
           onClick={() => handlePageChange(page - 1)}
@@ -118,32 +120,29 @@ function Organizations() {
           Next
         </button>
       </div>
-      
+
       {/* Delete Confirmation Modal */}
       <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
         <Modal.Header>Confirm Deletion</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this organization? This action cannot be undone.
+              Are you sure you want to delete this organization? This action
+              cannot be undone.
             </p>
-            {deleteError && (
-              <Alert color="failure">
-                {deleteError}
-              </Alert>
-            )}
+            {deleteError && <Alert color="failure">{deleteError}</Alert>}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button color="gray" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
-          <Button 
-            color="failure" 
+          <Button
+            color="failure"
             onClick={handleDeleteOrganization}
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete Organization'}
+            {deleteMutation.isPending ? "Deleting..." : "Delete Organization"}
           </Button>
         </Modal.Footer>
       </Modal>

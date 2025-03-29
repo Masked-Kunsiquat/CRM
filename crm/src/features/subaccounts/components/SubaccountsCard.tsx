@@ -2,11 +2,11 @@ import { memo, useMemo } from "react";
 import { useSubaccounts } from "../api/useSubaccounts";
 import OrgDetailCard from "../../organizations/components/OrgDetailCard";
 import DataTable from "../../../shared/components/DataTable";
-import { 
-  SubaccountsCardProps, 
+import {
+  SubaccountsCardProps,
   SubaccountField,
   SubaccountFieldLabels,
-  FormattedSubaccount
+  FormattedSubaccount,
 } from "../types";
 
 /**

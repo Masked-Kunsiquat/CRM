@@ -63,16 +63,20 @@ export default function AccountDetail() {
   if (auditStatusError || auditDataError) {
     return (
       <div className="p-4 text-red-500">
-        <strong>Error:</strong> {auditStatusError ? "Could not fetch audit status." : "Could not fetch audit data."}
+        <strong>Error:</strong>{" "}
+        {auditStatusError
+          ? "Could not fetch audit status."
+          : "Could not fetch audit data."}
       </div>
     );
   }
 
-  const latestAuditStatus = auditStatus.length > 0
-    ? [...auditStatus].sort(
-        (a, b) => b.expectedDate.getTime() - a.expectedDate.getTime(),
-      )[0]
-    : null;
+  const latestAuditStatus =
+    auditStatus.length > 0
+      ? [...auditStatus].sort(
+          (a, b) => b.expectedDate.getTime() - a.expectedDate.getTime(),
+        )[0]
+      : null;
 
   return (
     <div className="h-screen overflow-y-auto p-4 dark:bg-gray-900 dark:text-white">
@@ -146,28 +150,27 @@ export default function AccountDetail() {
         organizationId={account.expand?.organization?.id || ""}
         accountId={account.id}
       />
-      
+
       {/* Floor Matrix Card moved to the bottom */}
       {auditData?.floorMatrix && (
         <div className="mt-6">
-          <FloorMatrix 
-            data={auditData.floorMatrix} 
-            title={`Floor Visit History (${account.floors_min || 1}-${account.floors_max || 1})`} 
+          <FloorMatrix
+            data={auditData.floorMatrix}
+            title={`Floor Visit History (${account.floors_min || 1}-${account.floors_max || 1})`}
             className="w-full"
             audits={auditData.audits}
           />
         </div>
       )}
       {!auditData?.floorMatrix && account.floors_min && account.floors_max && (
-        <div className="overflow-x-auto p-2 pl-4 mt-6 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white p-2 pl-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Floor Visit History
           </h5>
           <p className="text-gray-500 dark:text-gray-400">
-            {auditData?.audits?.length ? 
-              "Floor matrix could not be generated. Check floor configuration." : 
-              "No audit data available for this account yet."
-            }
+            {auditData?.audits?.length
+              ? "Floor matrix could not be generated. Check floor configuration."
+              : "No audit data available for this account yet."}
           </p>
         </div>
       )}
