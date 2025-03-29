@@ -1,38 +1,64 @@
-"use client";
+import { memo, useMemo } from "react";
+import { useSubaccounts } from "../api/useSubaccounts";
+import OrgDetailCard from "../../organizations/components/OrgDetailCard";
+import DataTable from "../../../shared/components/DataTable";
+import { 
+  SubaccountsCardProps,
+  SubaccountField,
+  SubaccountFieldLabels
+} from "../types";
 
 /**
- * Subaccount detail page.
+ * Displays a table of subaccounts associated with one or more accounts.
  *
- * - Fetches a subaccount by ID using `useSubaccount`
- * - Displays subaccount name and renders related contacts
- * - Contacts are linked via `organizationId`, `accountId`, and `subaccountId`
- * - Handles loading and error states
+ * - Fetches subaccounts via `useSubaccounts`, expanding their linked account
+ * - Displays fields: name, accountName, and status (✅ / ❌)
+ * - Wraps output in `OrgDetailCard` and handles loading, error, and empty states
+ *
+ * @param {SubaccountsCardProps} props - Props containing account records to fetch subaccounts for
+ * @returns {JSX.Element} A card containing a table of subaccounts
  */
+function SubaccountsCard({ accounts }: SubaccountsCardProps) {
+  const { data: subaccounts, isLoading, error } = useSubaccounts(accounts);
 
-import { useParams } from "react-router-dom";
-import { useSubaccount } from "../api/useSubaccounts";
-import ContactsCard from "../../contacts/components/ContactsCard";
+  const subaccountFields: SubaccountField[] = ["name", "accountName", "status"];
+  const subaccountFieldLabels: SubaccountFieldLabels = {
+    name: "Name",
+    accountName: "Account Name",
+    status: "Status",
+    created: "Created",
+  };
 
-export default function SubAccountDetail() {
-  const { id: subaccountId } = useParams();
-  const { data: subaccount, isLoading, error } = useSubaccount(subaccountId);
+  const formattedSubaccounts = useMemo(() => {
+    return (
+      subaccounts?.map((subaccount) => ({
+        ...subaccount,
+        status: subaccount.status === "active" ? "✅" : "❌",
+      })) || []
+    );
+  }, [subaccounts]);
 
-  const expandedAccount = subaccount?.expand?.account;
-  const expandedOrg = expandedAccount?.expand?.organization;
-
-  if (isLoading) return <div>Loading subaccount...</div>;
-  if (error || !subaccount)
-    return <div>Error: {error?.message || "Subaccount not found"}</div>;
+  if (isLoading)
+    return <OrgDetailCard title="Subaccounts">Loading...</OrgDetailCard>;
+  if (error)
+    return (
+      <OrgDetailCard title="Subaccounts">Error: {error.message}</OrgDetailCard>
+    );
 
   return (
-    <div className="h-screen p-4 dark:bg-gray-900 dark:text-white">
-      <h1 className="mb-4 text-2xl font-bold">Subaccount: {subaccount.name}</h1>
-      <ContactsCard
-        context="subaccount"
-        organizationId={expandedOrg?.id || ""}
-        accountId={expandedAccount?.id || ""}
-        subaccountId={subaccount.id}
-      />
-    </div>
+    <OrgDetailCard title="Subaccounts">
+      {formattedSubaccounts.length > 0 ? (
+        <DataTable
+          data={formattedSubaccounts}
+          fields={subaccountFields}
+          fieldLabels={subaccountFieldLabels}
+          entityPath="/subaccounts"
+        />
+      ) : (
+        <p className="text-gray-900 dark:text-white">No Subaccounts Found</p>
+      )}
+    </OrgDetailCard>
   );
 }
+
+export default memo(SubaccountsCard);

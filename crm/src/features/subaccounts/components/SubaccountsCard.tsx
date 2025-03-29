@@ -2,11 +2,12 @@ import { memo, useMemo } from "react";
 import { useSubaccounts } from "../api/useSubaccounts";
 import OrgDetailCard from "../../organizations/components/OrgDetailCard";
 import DataTable from "../../../shared/components/DataTable";
-import { RecordModel } from "pocketbase";
-
-interface SubaccountsCardProps {
-  accounts: RecordModel[];
-}
+import { 
+  SubaccountsCardProps, 
+  SubaccountField,
+  SubaccountFieldLabels,
+  FormattedSubaccount
+} from "../types";
 
 /**
  * Displays a table of subaccounts associated with one or more accounts.
@@ -21,15 +22,15 @@ interface SubaccountsCardProps {
 function SubaccountsCard({ accounts }: SubaccountsCardProps) {
   const { data: subaccounts, isLoading, error } = useSubaccounts(accounts);
 
-  const subaccountFields = ["name", "accountName", "status"];
-  const subaccountFieldLabels = {
+  const subaccountFields: SubaccountField[] = ["name", "accountName", "status"];
+  const subaccountFieldLabels: SubaccountFieldLabels = {
     name: "Name",
     accountName: "Account Name",
     status: "Status",
     created: "Created",
   };
 
-  const formattedSubaccounts = useMemo(() => {
+  const formattedSubaccounts = useMemo<FormattedSubaccount[]>(() => {
     return (
       subaccounts?.map((subaccount) => ({
         ...subaccount,
