@@ -1,15 +1,6 @@
 // LoginForm.tsx
-import { FormEvent } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
-
-interface LoginFormProps {
-  email: string;
-  password: string;
-  error: string;
-  setEmail: (email: string) => void;
-  setPassword: (password: string) => void;
-  onSubmit: (e: FormEvent) => void;
-}
+import { LoginFormProps } from "../types";
 
 /**
  * A controlled login form component.
@@ -22,13 +13,13 @@ interface LoginFormProps {
  * @param {LoginFormProps} props - Props for managing form state and handlers
  * @returns {JSX.Element} A styled login form
  */
-export const LoginForm = ({
-  email,
-  password,
-  error,
-  setEmail,
-  setPassword,
-  onSubmit,
+export const LoginForm = ({ 
+  email, 
+  password, 
+  error, 
+  setEmail, 
+  setPassword, 
+  onSubmit 
 }: LoginFormProps) => {
   return (
     <form

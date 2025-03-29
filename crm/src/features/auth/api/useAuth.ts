@@ -2,26 +2,11 @@ import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import getPocketBase from "../../../shared/api/pocketbase";
-import { RecordAuthResponse, RecordModel } from "pocketbase";
+import { RecordAuthResponse } from "pocketbase";
+import { User, LoginCredentials, AuthHookReturn } from "../types";
+
 
 const pb = getPocketBase();
-
-/**
- * Extended user model for authenticated users.
- */
-interface User extends RecordModel {
-  email: string;
-  username?: string;
-  // Add other known user fields here if needed
-}
-
-/**
- * Structure for login credentials.
- */
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
 
 /**
  * Custom hook to manage user authentication.
@@ -38,7 +23,7 @@ interface LoginCredentials {
  *   logout: () => void
  * }}
  */
-export const useAuth = () => {
+export const useAuth = (): AuthHookReturn => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
