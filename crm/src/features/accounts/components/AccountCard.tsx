@@ -1,11 +1,7 @@
 import { memo, useMemo } from "react";
-import { RecordModel } from "pocketbase";
 import OrgDetailCard from "../../organizations/components/OrgDetailCard";
 import DataTable from "../../../shared/components/DataTable";
-
-interface AccountCardProps {
-  accounts: RecordModel[];
-}
+import { AccountCardProps } from "../types";
 
 /**
  * Displays a list of accounts inside an `OrgDetailCard` container.
