@@ -31,11 +31,21 @@ const fetchAudits = async (accountId: string): Promise<Audit[]> => {
   }));
 };
 
-function getLastCompletedAuditDate(audits: Audit[]): Date | null {
+// This function now gets the last completed audit date, or falls back to the most recent audit of any status
+function getLastAuditDate(audits: Audit[]): Date | null {
+  // First try to get the most recent completed audit
   const completed = audits.filter((a) => a.status === "completed");
-  if (completed.length === 0) return null;
+  if (completed.length > 0) {
+    return new Date(
+      Math.max(...completed.map((audit) => new Date(audit.date).getTime())),
+    );
+  }
+  
+  // If no completed audits, fall back to the most recent audit of any status
+  if (audits.length === 0) return null;
+  
   return new Date(
-    Math.max(...completed.map((audit) => new Date(audit.date).getTime())),
+    Math.max(...audits.map((audit) => new Date(audit.date).getTime())),
   );
 }
 
@@ -118,7 +128,8 @@ export const useAuditStatus = (
 
       if (audits.length === 0) return [];
 
-      const startDate = getLastCompletedAuditDate(audits) || new Date();
+      // Use the new function instead of getLastCompletedAuditDate
+      const startDate = getLastAuditDate(audits) || new Date();
       const expected = generateExpectedDates(
         startDate,
         account.frequency,
