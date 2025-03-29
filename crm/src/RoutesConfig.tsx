@@ -1,14 +1,14 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Organizations from "./pages/Organizations";
-import OrgDetail from "./pages/OrgDetail";
-import CreateOrganization from "./components/organizations/CreateOrganization";
-import EditOrganization from "./components/organizations/EditOrganization";
-import AccountDetail from "./pages/AccountDetail";
-import SubAccountDetail from "./pages/SubaccountDetail";
-import { Layout } from "./components/shared/Layout";
-import { NotificationProvider } from "./components/shared/NotificationContext";
+import Login from "./features/auth/pages/Login";
+import Dashboard from "./features/dashboard/pages/Dashboard";
+import Organizations from "./features/organizations/pages/Organizations";
+import OrgDetail from "./features/organizations/pages/OrgDetail";
+import CreateOrganization from "./features/organizations/components/CreateOrganization";
+import EditOrganization from "./features/organizations/components/EditOrganization";
+import AccountDetail from "./features/accounts/pages/AccountDetail";
+import SubAccountDetail from "./features/subaccounts/pages/SubaccountDetail";
+import { Layout } from "./shared/components/Layout";
+import { NotificationProvider } from "./shared/components/NotificationContext";
 
 export function RoutesConfig() {
   return (
