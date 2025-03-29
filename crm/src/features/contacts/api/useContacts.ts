@@ -1,26 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
+import { 
+  EntityType, 
+  UseContactsOptions 
+} from "../types";
 
 const pb = getPocketBase();
-
-/**
- * The type of contact group currently active.
- * - "internal" refers to coworkers.
- * - "external" refers to clients/contacts.
- * - "all" fetches both internal and external.
- */
-type ActiveTab = "internal" | "external" | "all";
-
-/**
- * Options used to fetch contacts related to an entity.
- */
-interface UseContactsOptions {
-  activeTab: ActiveTab;
-  entityType: "organization" | "account" | "subaccount";
-  entityId: string;
-  expand?: string; // Optional field expansion
-}
 
 /**
  * Fetches a list of contacts from a given collection, filtered by entity type and ID.
@@ -34,7 +20,7 @@ interface UseContactsOptions {
  */
 const fetchContacts = async (
   collection: string,
-  entityType: "organization" | "account" | "subaccount",
+  entityType: EntityType,
   entityId: string,
   expand?: string,
 ): Promise<RecordModel[]> => {

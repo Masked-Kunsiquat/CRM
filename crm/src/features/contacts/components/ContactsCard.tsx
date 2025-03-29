@@ -4,14 +4,7 @@ import { useState } from "react";
 import { useContacts } from "../api/useContacts";
 import OrgDetailCard from "../../organizations/components/OrgDetailCard";
 import DataTable from "../../../shared/components/DataTable";
-
-type ContactsCardProps = {
-  context: "organization" | "account" | "subaccount";
-  organizationId: string;
-  accountId?: string;
-  subaccountId?: string;
-  isHomeCompany?: boolean;
-};
+import { ContactsCardProps } from "../types";
 
 /**
  * Displays a contacts table for a given context (organization, account, or subaccount).
