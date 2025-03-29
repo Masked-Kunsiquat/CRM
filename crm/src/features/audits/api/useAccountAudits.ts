@@ -3,24 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
 import { buildFloorMatrix } from "../../../shared/utils/buildFloorMatrix";
+import { 
+  AuditWithFloors, 
+  AccountFloorConfig 
+} from '../types';
 
 const pb = getPocketBase();
-
-export interface AuditWithFloors {
-  id: string;
-  date: string;
-  status: "scheduled" | "pending" | "completed" | "canceled";
-  note?: string;
-  account: string;
-  visited_floors: number[];
-  score?: number;
-}
-
-export interface AccountFloorConfig {
-  floors_min: number;
-  floors_max: number;
-  excluded_floors: number[];
-}
 
 /**
  * Fetches all audits for a specific account with their visited floors data

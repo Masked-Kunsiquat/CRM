@@ -1,22 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "../../accounts/api/useAccounts";
 import getPocketBase from "../../../shared/api/pocketbase";
+import { 
+  Frequency, 
+  Audit, 
+  AuditStatus 
+} from '../types';
 
 const pb = getPocketBase();
-
-type Frequency = "monthly" | "bi-monthly" | "quarterly" | "triennially";
-
-interface Audit {
-  account_id: string;
-  date: string;
-  status: "completed" | "scheduled" | "pending" | "canceled";
-}
-
-interface AuditStatus {
-  expectedDate: Date;
-  status: "completed" | "missed" | "pending" | "scheduled" | "canceled";
-  actualDate?: Date;
-}
 
 const fetchAudits = async (accountId: string): Promise<Audit[]> => {
   const audits = await pb.collection("audits").getFullList({
