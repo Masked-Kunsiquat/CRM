@@ -1,13 +1,7 @@
 "use client";
 
 import { Avatar } from "flowbite-react";
-
-interface CompanyLogoProps {
-  logo: string | null;
-  orgId: string;
-  orgName?: string;
-  collectionId: string;
-}
+import { CompanyLogoProps } from "../types";
 
 /**
  * Renders a company logo image or fallback initials using `Avatar`.

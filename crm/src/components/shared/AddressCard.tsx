@@ -1,7 +1,7 @@
 // src/components/shared/AddressCard.tsx
 "use client";
 
-import OrgDetailCard from "../organizations/OrgDetailCard";
+import OrgDetailCard from "../../features/organizations/components/OrgDetailCard";
 
 type Address = {
   street?: string;

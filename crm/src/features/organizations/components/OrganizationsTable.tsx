@@ -1,14 +1,8 @@
 // OrganizationsTable.tsx
-import { RecordModel } from "pocketbase";
 import { Link } from "react-router-dom";
 import { Table, Badge, Button } from "flowbite-react";
 import { HiEye, HiPencil, HiTrash } from "react-icons/hi";
-
-interface OrganizationsTableProps {
-  organizations: RecordModel[];
-  onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
-}
+import { OrganizationsTableProps } from "../types";
 
 /**
  * Displays a table of organization records with action buttons.

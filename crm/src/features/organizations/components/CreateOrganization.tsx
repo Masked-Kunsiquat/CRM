@@ -4,8 +4,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
-import { useCreateOrganization } from "../../api/useOrganizations";
-import OrganizationForm from "../../components/organizations/OrganizationForm";
+import { useCreateOrganization } from "../api/useOrganizations";
+import OrganizationForm from "../components/OrganizationForm";
 
 /**
  * Create Organization page component.

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Alert } from "flowbite-react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { useOrganizations, useDeleteOrganization } from "../api/useOrganizations";
-import { OrganizationsTable } from "../components/organizations/OrganizationsTable";
+import { OrganizationsTable } from "../components/OrganizationsTable";
 
 function Organizations() {
   const [page, setPage] = useState(1);

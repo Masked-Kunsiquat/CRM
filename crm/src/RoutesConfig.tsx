@@ -1,10 +1,10 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./features/auth/pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Organizations from "./pages/Organizations";
-import OrgDetail from "./pages/OrgDetail";
-import CreateOrganization from "./components/organizations/CreateOrganization";
-import EditOrganization from "./components/organizations/EditOrganization";
+import Organizations from "./features/organizations/pages/Organizations";
+import OrgDetail from "./features/organizations/pages/OrgDetail";
+import CreateOrganization from "./features/organizations/components/CreateOrganization";
+import EditOrganization from "./features/organizations/components/EditOrganization";
 import AccountDetail from "./pages/AccountDetail";
 import SubAccountDetail from "./pages/SubaccountDetail";
 import { Layout } from "./components/shared/Layout";

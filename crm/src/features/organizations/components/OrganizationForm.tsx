@@ -1,17 +1,10 @@
 // OrganizationForm.tsx
 import { useState, useEffect } from "react";
 import { Button, Label, TextInput, Textarea, Checkbox } from "flowbite-react";
-import { Organization, CreateOrganizationData, UpdateOrganizationData } from "../../api/useOrganizations";
-import getPocketBase from "../../shared/api/pocketbase";
+import { CreateOrganizationData, OrganizationFormProps } from "../types";
+import getPocketBase from "../../../shared/api/pocketbase";
 
 const pb = getPocketBase();
-
-interface OrganizationFormProps {
-  organization?: Organization;
-  onSubmit: (data: CreateOrganizationData | UpdateOrganizationData) => void;
-  onCancel: () => void;
-  isSubmitting: boolean;
-}
 
 /**
  * Form component for creating or editing an organization.

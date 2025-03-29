@@ -4,9 +4,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
-import { useOrgDetail } from "../../api/useOrgDetail";
-import { useUpdateOrganization, Organization } from "../../api/useOrganizations";
-import OrganizationForm from "./OrganizationForm";
+import { useOrgDetail } from "../api/useOrgDetail";
+import { useUpdateOrganization } from "../api/useOrganizations";
+import { Organization } from "../types"; // Import from central types file
+import OrganizationForm from "../components/OrganizationForm";
+
 
 /**
  * Edit Organization page component.

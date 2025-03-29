@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import getPocketBase from "../shared/api/pocketbase";
+import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
 
 const pb = getPocketBase();

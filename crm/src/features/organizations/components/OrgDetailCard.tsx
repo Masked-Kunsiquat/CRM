@@ -1,11 +1,7 @@
 "use client";
 
 import { Card } from "flowbite-react";
-
-interface OrgDetailCardProps {
-  title: string;
-  children: React.ReactNode;
-}
+import { OrgDetailCardProps } from "../types";
 
 /**
  * A reusable card component for displaying sections of organization details.

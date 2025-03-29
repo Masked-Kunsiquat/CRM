@@ -1,30 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import getPocketBase from "../shared/api/pocketbase";
+import getPocketBase from "../../../shared/api/pocketbase";
 import { RecordModel } from "pocketbase";
+import { 
+  Organization, 
+  CreateOrganizationData, 
+  UpdateOrganizationData,
+  OrganizationListResponse 
+} from "../types";
 
 const pb = getPocketBase();
-
-// Type definitions for organization data
-export interface Organization extends RecordModel {
-  name: string;
-  description?: string;
-  active: boolean;
-  address?: string;
-  is_home_company: boolean;
-  logo?: string;
-  city?: string; // Derived field
-}
-
-export type CreateOrganizationData = {
-  name: string;
-  description?: string;
-  address: string; // This will be processed to create/update an address record
-  active?: boolean;
-  is_home_company?: boolean;
-  logo?: File;
-};
-
-export type UpdateOrganizationData = Partial<CreateOrganizationData>;
 
 /**
  * Fetches a paginated list of organizations from PocketBase,
@@ -38,18 +22,18 @@ export type UpdateOrganizationData = Partial<CreateOrganizationData>;
  *  - `organizations`: Array of processed organization records.
  *  - `totalPages`: Total number of pages available.
  */
-const fetchOrganizations = async (page: number, perPage: number) => {
+const fetchOrganizations = async (page: number, perPage: number): Promise<OrganizationListResponse> => {
   const result = await pb.collection("organizations").getList(page, perPage, {
     sort: "name",
     expand: "address",
   });
 
-  const processedItems = result.items.map((item) => {
+  const processedItems: Organization[] = result.items.map((item) => {
     const expandedAddress = item.expand?.address as RecordModel;
     return {
       ...item,
       city: expandedAddress?.city || "N/A",
-    };
+    } as Organization;
   });
 
   return {
@@ -80,7 +64,7 @@ export const useOrganizations = (page: number, perPage: number) => {
  * @param data - The organization data to create
  * @returns The created organization record
  */
-const createOrganization = async (data: CreateOrganizationData): Promise<RecordModel> => {
+const createOrganization = async (data: CreateOrganizationData): Promise<Organization> => {
   // Process the address string to create an address record
   let addressId = "";
   if (data.address) {
@@ -106,7 +90,7 @@ const createOrganization = async (data: CreateOrganizationData): Promise<RecordM
   if (addressId) formData.append("address", addressId);
   if (data.logo) formData.append("logo", data.logo);
   
-  return await pb.collection("organizations").create(formData);
+  return await pb.collection("organizations").create(formData) as Organization;
 };
 
 /**
@@ -117,9 +101,9 @@ const createOrganization = async (data: CreateOrganizationData): Promise<RecordM
  * @param data - The organization data to update
  * @returns The updated organization record
  */
-const updateOrganization = async (id: string, data: UpdateOrganizationData): Promise<RecordModel> => {
+const updateOrganization = async (id: string, data: UpdateOrganizationData): Promise<Organization> => {
   // Get the current organization to access its address
-  const organization = await pb.collection("organizations").getOne(id, { expand: "address" });
+  const organization: Organization = await pb.collection("organizations").getOne(id, { expand: "address" });
   
   // Process the address if provided
   if (data.address) {
@@ -156,7 +140,7 @@ const updateOrganization = async (id: string, data: UpdateOrganizationData): Pro
   if (data.address) formData.append("address", data.address);
   if (data.logo) formData.append("logo", data.logo);
   
-  return await pb.collection("organizations").update(id, formData);
+  return await pb.collection("organizations").update(id, formData) as Organization;
 };
 
 /**
@@ -167,7 +151,7 @@ const updateOrganization = async (id: string, data: UpdateOrganizationData): Pro
  */
 const deleteOrganization = async (id: string): Promise<void> => {
   // Get the organization to check if it has an address to delete
-  const organization = await pb.collection("organizations").getOne(id);
+  const organization: Organization = await pb.collection("organizations").getOne(id);
   
   // Delete the organization
   await pb.collection("organizations").delete(id);
